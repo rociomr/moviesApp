@@ -1,0 +1,19 @@
+.menu-container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 250px;
+  
+    .menu-options-wrapper {
+      padding: 0 8px;
+  
+      .menu-item-icon {
+        font-size: 1.5rem;
+      }
+  
+      .menu-item-label {
+        padding-left: 16px;
+        font-size: 1.2rem;
+      }
+    }
+  }

@@ -1,0 +1,8 @@
+<p>header works!</p>
+<mat-toolbar [class.show-button]="" class="header-toolbar" color="primary">
+	<button mat-button class="header-button" (click)="actionEventEmitter.emit()">
+    <mat-icon class="material-icons-round header-button-icon">hola</mat-icon>
+  </button>
+	<h1 class="header-title">title</h1>
+</mat-toolbar>
+<app-menu></app-menu>
