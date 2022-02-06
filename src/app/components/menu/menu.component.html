@@ -7,7 +7,7 @@
 		</div>
 	
 		<a mat-button class="companyName" routerLink="/">
-			<span>Site name</span>
+			<span>Name</span>
 		</a>
 		<span class="example-spacer"></span>
 		<div fxShow="true" fxHide.lt-md="true">
@@ -16,9 +16,8 @@
 			<a mat-button routerLink="/estudios">Estudios</a>
 		</div>
 	
-		</mat-toolbar>
-		<mat-sidenav-container fxFlexFill class="example-container">
-	
+	</mat-toolbar>
+	<mat-sidenav-container fxFlexFill class="example-container">
 		<mat-sidenav color="primary" #sidenav fxLayout="column" mode="over"  opened="false" fxShow.gt-sm="true">
 			<div fxLayout="column">
 				<a mat-button routerLink="/home">Películas</a>
@@ -27,7 +26,13 @@
 			</div>
 		</mat-sidenav>
 		<mat-sidenav-content fxFlexFill>
-			Awesome content
+			<app-gallery></app-gallery>
 		</mat-sidenav-content>
     </mat-sidenav-container>
+
   </div>
+  <div class="contenedor">
+    <button class="botonF1">
+        <span>+4</span>
+      </button>
+    </div>

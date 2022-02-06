@@ -6,6 +6,7 @@ import { PagesRoutingModule} from './pages-routing.module';
 import { PagesComponent } from './pages.component';
 import { HeaderComponent } from '../components/header/header.component';
 import { MenuComponent } from '../components/menu/menu.component';
+import { GalleryComponent } from '../components/gallery/gallery.component';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
@@ -15,7 +16,7 @@ import { SharedModule } from '../shared/shared.module';
     PagesComponent,
     HeaderComponent,
     MenuComponent,
-    
+    GalleryComponent
   ],
   imports: [
     PagesRoutingModule,
