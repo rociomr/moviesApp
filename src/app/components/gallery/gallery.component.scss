@@ -1,18 +1,21 @@
 .content {
-    padding: 16px;
+  padding: 16px;
     
 }
-.content > mat-card {
-    width: 200px;
+.mat-card{
+  cursor: pointer;
 }
+/*.content > mat-card {
+  width: 200px;
+}/*
 
 .home-add-button {
-    position: absolute;
-    bottom: 24px;
-    right: 24px;
-  }
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+}
 
-  .botonF1{
+  /*.botonF1{
     width:60px;
     height:60px;
     border-radius:100%;
@@ -37,27 +40,26 @@
   }
   .botonF1:active{
     transform:scale(1.1);
-  }
-  .btn{
-    width:40px;
-    height:40px;
-    border-radius:100%;
-    border:none;
-    color:#FFF;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    font-size:28px;
-    outline:none;
-    position:absolute;
-    right:0;
-    bottom:0;
-    margin-right:26px;
-    transform:scale(0);
-  }
+  }*/
+.btn{
+  width:40px;
+  height:40px;
+  border-radius:100%;
+  border:none;
+  color:#FFF;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  font-size:28px;
+  outline:none;
+  position:absolute;
+  right:0;
+  bottom:0;
+  margin-right:26px;
+  transform:scale(0);
+}
 
-  .flotante {
-    //display:scroll;
-    position:fixed;
-    bottom: 50px;
-    right: 22px;
-
+.flotante {
+  //display:scroll;
+  position:fixed;
+  bottom: 20px;
+  right: 20px;
 }

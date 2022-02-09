@@ -1,18 +1,20 @@
 <div class="content">
     <div fxLayout="row wrap" fxLayoutGap="16px grid">
-        <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let num of [1,2,3,4,5,6]">
+        <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let movie of moviesList">
             <mat-card class="mat-elevation-z4">
             <mat-card-header>
-                <mat-card-title>Title {{num}}</mat-card-title>
+                <mat-card-title>{{movie.title}}</mat-card-title>
             </mat-card-header>
-            <img mat-card-image src="./../assets/images/paisaje.jfif">
+            <img mat-card-image  [src]="movie.poster!= null ? movie.poster : '../../assets/images/noPoster.png'">
             <mat-card-content>
-                <p>Description</p>
+                <div >
+                    <span *ngFor="let genreMovie of movie.genre" > #{{genreMovie}} </span>
+                </div>
             </mat-card-content>
             </mat-card>
         </div>
     </div>
-    <button mat-fab class="home-add-button flotante" color="primary" routerLink="/note/create">
+    <button mat-fab class="home-add-button flotante" color="primary" routerLink="/detail">
         <mat-icon class="material-icons-round">add</mat-icon>
     </button>
 </div>
