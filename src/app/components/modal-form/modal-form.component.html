@@ -1,69 +1,96 @@
-<p>modal-form works!</p>
 <mat-card class="contact-card">
-    <mat-card-header>
-      <mat-card-title>Reactive Form</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <form id="contactForm" [formGroup]="form" (ngSubmit)="submit()">
-      <mat-form-field>
-        <input matInput placeholder="title" formControlName="title" class="form-control"  name="title">
-        
-      </mat-form-field>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="poster" formControlName="poster" class="form-control"  name="poster">
-      </mat-form-field>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="genres" formControlName="genres" class="form-control"  name="genres">
-      </mat-form-field>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="actors" formControlName="actors" class="form-control"  name="actors">
-      </mat-form-field>
-      <mat-label>Favorite Fruits</mat-label>
-        <mat-chip-list #chipList aria-label="Fruit selection">
-            <mat-chip
-            *ngFor="let fruit of fruits"
-            (removed)="remove(fruit)">
-            {{fruit}}
-            <button matChipRemove>
-                <mat-icon>cancel</mat-icon>
-            </button>
-            </mat-chip>
-            <input
-            placeholder="New fruit..."
-            #fruitInput
-            [formControl]="fruitCtrl"
-            [matAutocomplete]="auto"
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="add($event)">
-        </mat-chip-list>
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
-            {{fruit}}
-            </mat-option>
-        </mat-autocomplete>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="studio" formControlName="studio" class="form-control"  name="studio">
-      </mat-form-field>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="year" formControlName="year" class="form-control"  name="year">
-      </mat-form-field>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="duration" formControlName="duration" class="form-control"  name="duration">
-      </mat-form-field>
-      <br>
-      <mat-form-field>
-        <input matInput placeholder="punctuation" formControlName="punctuation" class="form-control"  name="punctuation">
-      </mat-form-field>
-      <br>
-      <button id="btnSubmit" mat-raised-button type="submit" color="primary">Submit</button>
-      </form>
-    </mat-card-content>
-  </mat-card>
+  <mat-card-header>
+    <mat-card-title>Reactive Form</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form id="contactForm" [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field>
+      <input matInput placeholder="Título" formControlName="title" class="form-control"  name="title">
+      
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <input matInput placeholder="Póster (url)" formControlName="poster" class="form-control"  name="poster">
+    </mat-form-field>
+    <br>
+   
+    <mat-chip-list #chipList aria-label="Añadir actores">
+        <mat-chip *ngFor="let actor of actors" (removed)="remove(actor)">
+          {{actor}}
+          <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <input
+        placeholder="Actores"
+        #actorInput
+        [formControl]="actorCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let actor of filteredActors| async" [value]="actor">
+        {{actor}}2
+        </mat-option>
+    </mat-autocomplete>
+    <mat-form-field>
+      <input matInput placeholder="Géneros" formControlName="genres" class="form-control"  name="genres">
+    </mat-form-field>
+    <br>
+    <mat-chip-list #chipStudiosList aria-label="Añadir estudios">
+      <mat-chip *ngFor="let studio of studios" (removed)="remove(studio)">
+        {{studio}}
+        <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input
+      placeholder="studios"
+      #actorInput
+      [formControl]="studioCtrl"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipStudiosList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="add($event)">
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+    <mat-option *ngFor="let studio of filteredStudios| async" [value]="studio">
+    {{studio}}2
+    </mat-option>
+</mat-autocomplete>
+    <mat-form-field>
+      <input matInput placeholder="Año" formControlName="year" class="form-control" type="number" name="year">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <input matInput placeholder="Duración (min)" formControlName="duration" class="form-control" type="number"  name="duration">
+    </mat-form-field>
+    <br>
+    <mat-label>Punctuation</mat-label><br>
+    <mat-slider
+        class="example-margin"
+        max="10"
+        min="1"
+        name="punctuation"
+        step="0.1"
+        [thumbLabel]=true
+        [value]="1"
+        aria-labelledby="example-name-label">
+    </mat-slider>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Choose an option</mat-label>
+      <mat-select [disabled]="disableSelect.value">
+        <mat-option value="option1">Option 1</mat-option>
+        <mat-option value="option2" disabled>Option 2 (disabled)</mat-option>
+        <mat-option value="option3">Option 3</mat-option>
+      </mat-select>
+    </mat-form-field><br>
+    <button id="btnSubmit" mat-raised-button type="submit" color="primary">Guardar</button>
+    </form>
+  
+  </mat-card-content>
+</mat-card>
   
