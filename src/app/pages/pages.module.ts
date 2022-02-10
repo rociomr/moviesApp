@@ -8,6 +8,7 @@ import { GalleryComponent } from '../components/gallery/gallery.component';
 import { ModalFormComponent } from '../components/modal-form/modal-form.component';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NewMovieComponent } from '../new-movie/new-movie.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MenuComponent,
     GalleryComponent,
     ModalFormComponent,
+    NewMovieComponent,
     
   ],
   imports: [
