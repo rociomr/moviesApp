@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MoviesAppService} from '../../services/movies-app.service';
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-gallery',
@@ -8,7 +9,7 @@ import { MoviesAppService} from '../../services/movies-app.service';
 })
 export class GalleryComponent implements OnInit {
   moviesList: any = [];
-  constructor(private moviesService: MoviesAppService) { }
+  constructor(private moviesService: MoviesAppService, private router: Router) { }
 
   ngOnInit(): void {
     this.moviesService.getMoviesList().then( data => {
@@ -23,8 +24,9 @@ export class GalleryComponent implements OnInit {
     
   }
 
-  editMovie() {
-
+  goToDetail(movie: any) {
+    this.moviesService.setSelectedMovie(movie);
+    this.router.navigate(['/detail']);
   }
 
 }

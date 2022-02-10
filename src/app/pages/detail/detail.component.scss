@@ -1,0 +1,26 @@
+.btn{
+    width:40px;
+    height:40px;
+    border-radius:100%;
+    border:none;
+    color:#FFF;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    font-size:28px;
+    outline:none;
+    position:absolute;
+    right:0;
+    bottom:0;
+    margin-right:26px;
+    transform:scale(0);
+}
+
+.flotante {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.detail-content {
+    justify-content: center;
+    display: inline-flex;
+}
