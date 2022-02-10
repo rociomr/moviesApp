@@ -16,7 +16,7 @@ import { MoviesAppService} from '../../services/movies-app.service';
 export class ModalFormComponent implements OnInit {
   form;
   invert = false;
-  punctuation = 1;
+  punctuation = 3;
   actorsList: any = [];
   studiosList: any = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -35,7 +35,7 @@ export class ModalFormComponent implements OnInit {
     //this.filteredActors = this.actorCtrl.valueChanges;
     this.form = formBuilder.group({
       title: ['', Validators.required],
-      poster: ['', Validators.required],
+      poster: [''],
       genres: ['', Validators.required],
       actors: ['', Validators.required],
       studio: ['', Validators.required],
@@ -60,7 +60,7 @@ export class ModalFormComponent implements OnInit {
     });
 
     this.moviesService.getStudiosList().then( data => {
-      console.log('actores', data);
+      console.log('studios', data);
       this.studiosList = data;
       if(this.studiosList){
         this.getStudiosList();
@@ -70,7 +70,7 @@ export class ModalFormComponent implements OnInit {
         );
       }
     });
-
+    
   }
   /**
   * Method gets all names of actors
@@ -106,6 +106,14 @@ export class ModalFormComponent implements OnInit {
       console.log(this.form.value)
     }
     else{
+      console.log('this.form.value.title',this.form.value.title)
+      console.log('this.form.value.poster', this.form.value.poster)
+      console.log('this.form.value.genres',this.form.value.genres)
+      console.log('this.form.value.actors',this.actors)
+      console.log('this.form.value.studio',this.studios)
+      console.log('this.form.value.year',this.form.value.year)
+      console.log('this.form.value.duration',this.form.value.duration)
+      console.log('this.form.value.punctuation',this.form.value.punctuation)
       alert("FILL ALL FIELDS")
     }
   }

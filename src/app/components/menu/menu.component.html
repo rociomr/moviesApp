@@ -7,7 +7,7 @@
 		</div>
 	
 		<a mat-button class="companyName" routerLink="/">
-			<span>Name</span>
+			<span>{{title}}</span>
 		</a>
 		<span class="example-spacer"></span>
 		<div fxShow="true" fxHide.lt-md="true">
@@ -25,14 +25,7 @@
 				<a mat-button routerLink="/estudios">Estudios</a>
 			</div>
 		</mat-sidenav>
-		<mat-sidenav-content fxFlexFill>
-			<app-gallery></app-gallery>
-		</mat-sidenav-content>
+		
     </mat-sidenav-container>
 
   </div>
-  <div class="contenedor">
-    <button class="botonF1">
-        <span>+4</span>
-      </button>
-    </div>

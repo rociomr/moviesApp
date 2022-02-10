@@ -1,4 +1,6 @@
 import { Component} from '@angular/core';
+import { Router } from '@angular/router';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -10,7 +12,10 @@ export class MenuComponent  {
   isShowing = false;
   showSubSubMenu: boolean = false;
   isExpanded = true;
-  constructor() {}
+  title: string;
+  constructor(private router: Router) {
+    this.title = this.router.url.replace('/', '');
+  }
 
   
   mouseenter() {
