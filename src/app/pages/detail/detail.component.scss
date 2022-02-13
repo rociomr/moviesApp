@@ -23,4 +23,14 @@
 .detail-content {
     justify-content: center;
     display: inline-flex;
+    flex-wrap: wrap;
+}
+
+.detail-input-content {
+    width: 100;
+    margin: 30px;
+}
+
+.img-poster {
+    width: 300px;
 }

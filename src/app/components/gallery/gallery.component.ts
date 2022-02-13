@@ -12,21 +12,14 @@ export class GalleryComponent implements OnInit {
   constructor(private moviesService: MoviesAppService, private router: Router) { }
 
   ngOnInit(): void {
-    this.moviesService.getMoviesList().then( data => {
+    this.moviesService.getMovieObservable().subscribe(data => {
       this.moviesList = data;
-
-      console.log('moviesList', this.moviesList);
-
-     });
-  }
-
-  addMovie() {
-    
+    })
   }
 
   goToDetail(movie: any) {
-    this.moviesService.setSelectedMovie(movie);
-    this.router.navigate(['/detail']);
+    //this.moviesService.setSelectedMovie(movie);
+    this.router.navigate(['/detail/', movie.id]);
   }
 
 }

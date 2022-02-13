@@ -5,13 +5,13 @@ import { DetailComponent } from './detail/detail.component';
 import { PagesComponent } from './pages.component';
 
 const routes: Routes = [
-    { path: '', component: PagesComponent, children: 
-        [
+    //{ path: '', component: PagesComponent, children: 
+    //    [
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
-            { path: 'detail', component: DetailComponent }
-        ]
-    },
+            { path: 'detail/:id', component: DetailComponent }
+    //    ]
+    //},
 ];
 
 @NgModule({

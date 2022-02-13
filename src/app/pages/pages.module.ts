@@ -8,7 +8,8 @@ import { GalleryComponent } from '../components/gallery/gallery.component';
 import { ModalFormComponent } from '../components/modal-form/modal-form.component';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NewMovieComponent } from '../new-movie/new-movie.component';
+import { NewMovieComponent } from './new-movie/new-movie.component';
+import { MoviesAppService} from '../services/movies-app.service';
 
 @NgModule({
   declarations: [
@@ -18,8 +19,7 @@ import { NewMovieComponent } from '../new-movie/new-movie.component';
     MenuComponent,
     GalleryComponent,
     ModalFormComponent,
-    NewMovieComponent,
-    
+    NewMovieComponent
   ],
   imports: [
     PagesRoutingModule,
@@ -29,6 +29,9 @@ import { NewMovieComponent } from '../new-movie/new-movie.component';
   exports: [
     HomeComponent,
     DetailComponent,
+  ],
+  providers: [
+    MoviesAppService
   ]
 })
 export class PagesModule { }
