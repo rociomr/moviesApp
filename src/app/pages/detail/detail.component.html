@@ -6,28 +6,38 @@
                 <img class="img-poster" [src]="selectedMovie.poster!= null ? selectedMovie.poster : '../../assets/images/noPoster.png'">
             </div>   
             <div class="detail-input-content">
-                <mat-form-field>
-                    <input matInput placeholder="imdbRating" value={{selectedMovie.imdbRating}} class="form-control" type="number" name="imdbRating">
-                </mat-form-field><br>
-                <mat-form-field>
-                    <input matInput placeholder="Duracion" value={{selectedMovie.duration}} class="form-control" type="number" name="duration">
-                </mat-form-field><br>
-                <mat-form-field>
-                    <input matInput placeholder="Actores" value={{selectedMovie.title}} class="form-control" type="number" name="actors">
-                </mat-form-field><br>
-                <mat-form-field>
-                    <input matInput placeholder="Estudio" value={{selectedMovie.title}} class="form-control" type="text" name="studio">
-                </mat-form-field><br>
-                <mat-form-field>
-                    <input matInput placeholder="Año"  value={{selectedMovie.year}} class="form-control" type="number" name="year">
-                </mat-form-field><br>
+                <mat-label>Puntuación</mat-label><br>
+                <div>
+                    <span>{{selectedMovie.imdbRating}}</span>
+                </div><br>
+                <mat-label>Duración</mat-label><br>
+                <div>
+                    <span>{{selectedMovie.duration}} min</span>
+                </div><br>
+                <mat-label>Estudios</mat-label><br>
+                <div>
+                    <span> {{selectedMovie.studio}} </span>
+                </div><br>
+                <mat-label>Año</mat-label><br>
+                <div>
+                    <span> {{selectedMovie.year}} </span>
+                </div><br>
+                <mat-label>Géneros</mat-label><br>
                 <div>
                     <span *ngFor="let genreMovie of selectedMovie.genre" > #{{genreMovie}} </span>
-                </div>
+                </div><br>
+                <mat-label>Actores</mat-label><br>
+                <mat-chip-list #chipList aria-label="Añadir actores">
+                    <mat-chip *ngFor="let actor of nameActors">
+                      {{actor}}
+                    </mat-chip>
+                    
+                </mat-chip-list>
+                
             </div>
         </div>
     </div>
-    <button mat-fab class="edit-button flotante" color="primary" routerLink="/detail">
+    <button mat-fab class="edit-button flotante" color="primary" routerLink="/form">
         <mat-icon class="material-icons-round">edit</mat-icon>
     </button>
 </div>

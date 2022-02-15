@@ -10,6 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NewMovieComponent } from './new-movie/new-movie.component';
 import { MoviesAppService} from '../services/movies-app.service';
+import { FormComponent } from './form/form.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { MoviesAppService} from '../services/movies-app.service';
     MenuComponent,
     GalleryComponent,
     ModalFormComponent,
-    NewMovieComponent
+    NewMovieComponent,
+    FormComponent
   ],
   imports: [
     PagesRoutingModule,
@@ -29,6 +31,7 @@ import { MoviesAppService} from '../services/movies-app.service';
   exports: [
     HomeComponent,
     DetailComponent,
+    FormComponent
   ],
   providers: [
     MoviesAppService

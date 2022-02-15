@@ -47,7 +47,6 @@ export class MoviesAppService {
    */
   getSelectedMovie(movie: any, id: number){
     let movieSelected : any;
-    console.log("movie", typeof movie)
     movie.map((data: any) => {
       if(data.id === id){
         movieSelected = data ;

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MoviesAppService } from 'src/app/services/movies-app.service';
 import { Observable, take, tap } from 'rxjs';
 import { Subscription } from 'rxjs';
-import { ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { Actor } from 'src/app/shared/interfaces/data.interface';
 
 @Component({
   selector: 'app-detail',
@@ -16,9 +16,13 @@ export class DetailComponent implements OnInit {
   movieId: number;
   movie$: Observable<any>;
   movieData: any;
+  studio: string;
+  actorsList: any;
+  studiosList: any;
+  nameActors: string[] = [];
   _movieDataSubscription: Subscription;
 
-  constructor(private formBuilder: FormBuilder, private moviesSevice: MoviesAppService, private route: ActivatedRoute) {}
+  constructor(private moviesSevice: MoviesAppService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.params.pipe(
@@ -28,10 +32,45 @@ export class DetailComponent implements OnInit {
       }))
       .subscribe();
 
-    this.moviesSevice.getMovieObservable().subscribe(data => {
-      this.movieData = data;
-      this.selectedMovie = this.moviesSevice.getSelectedMovie(this.movieData, this.movieId);
+    this.moviesSevice.getActorsList().then( data => {
+      this.actorsList = data;
+      this.getNamesActorsMovieSelected();
+      this.getStudioMovieSelected();
     })
   }
 
+  /**
+   * Método para obtener el nombre de los actores de la película seleccionada
+   */
+  getNamesActorsMovieSelected(){
+    this.moviesSevice.getMovieObservable().subscribe(data => {
+      this.movieData = data;
+      this.selectedMovie = this.moviesSevice.getSelectedMovie(this.movieData, this.movieId);
+      this.selectedMovie.actors.forEach((actorMovie:any) => {
+        this.actorsList.forEach((actorList:any) => {
+          if(actorList.id === actorMovie){
+            let first_name = actorList.first_name;
+            let last_name = actorList.last_name;
+            this.nameActors.push(first_name +' '+ last_name)
+          }
+        })
+      });
+    })
+  }
+
+  /**
+   * Método para obtener el estudio de la película seleccionada
+   */
+  getStudioMovieSelected(){
+    this.moviesSevice.getStudiosList().then( data => {
+      this.studiosList = data;
+      this.studiosList.forEach((studio:any) => {
+        studio.movies.forEach((movieStudio:any) => {
+          if(movieStudio == this.selectedMovie.id){
+           this.selectedMovie.studio = studio.name;
+          }
+        });
+      });
+    }) 
+  }
 }
