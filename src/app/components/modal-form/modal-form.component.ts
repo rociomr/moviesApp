@@ -3,10 +3,12 @@ import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angula
 import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
-import {Observable} from 'rxjs';
+import { Observable, take, tap } from 'rxjs';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {map, startWith} from 'rxjs/operators';
 import { MoviesAppService} from '../../services/movies-app.service';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-modal-form',
@@ -14,26 +16,53 @@ import { MoviesAppService} from '../../services/movies-app.service';
   styleUrls: ['./modal-form.component.scss']
 })
 export class ModalFormComponent implements OnInit {
-  form;
+  
   invert = false;
-  punctuation = 3;
-  actorsList: any = [];
-  studiosList: any = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
   studioCtrl = new FormControl();
   filteredStudios: Observable<string[]>;
-  studios: string[] = ['Ejemplo'];
+  action: string;
+  titleAction: string;
+  punctuation = 3;
+  form:any;
+  nameActors: string[] = [];
+  actorsList: any = [];
+  studiosList: any = [];
+  studio: string[];
   allStudios: string[] = [];
   actorCtrl = new FormControl();
   filteredActors: Observable<string[]>;
   actors: string[] = ['Ejemplo'];
-  allActors: string[] = [];
+  allActors: any = [];
   disableSelect = new FormControl(false);
 
   @ViewChild('actorInput') actorInput!: ElementRef<HTMLInputElement>;
-  constructor(private formBuilder: FormBuilder, private element: ElementRef, private moviesService: MoviesAppService){
-    //this.filteredActors = this.actorCtrl.valueChanges;
-    this.form = formBuilder.group({
+  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private element: ElementRef, private moviesService: MoviesAppService){
+    this.getAllActorNames();
+    this.getAllStudioNames();
+  }
+  ngOnInit() {
+    
+    this.route.params.pipe(
+      take(1),
+      tap(({action})  => {
+        this.action = action;
+     
+        if(this.action === 'edit'){
+         this.editMovieInfo();
+        }else if(this.action === 'new'){
+          this.newMovieInfo();
+        }
+      })).subscribe();
+
+    
+    
+    
+  }
+
+  newMovieInfo(){
+    this.titleAction = 'Nueva película';
+    this.form = this.formBuilder.group({
       title: ['', Validators.required],
       poster: [''],
       genres: ['', Validators.required],
@@ -41,76 +70,81 @@ export class ModalFormComponent implements OnInit {
       studio: ['', Validators.required],
       year: ['', Validators.required],
       duration: ['', Validators.required],
-      punctuation: [this.punctuation, Validators.required]
+      punctuation: ['', Validators.required]
     });
+    
   }
-  ngOnInit() {
-    console.warn("OnInit")
-    // alert('hiii')
+
+  editMovieInfo(){
+    this.titleAction = 'Editar película';
+   
     this.moviesService.getActorsList().then( data => {
-      console.log('actores', data);
+      this.actorsList = data;
+      if(this.actorsList.length > 0){
+        console.log("this.actorlist", this.actorsList)
+        this.nameActors = this.moviesService.getNamesActorsMovieSelected(this.actorsList, 2);
+        console.log("nameActors", this.nameActors)
+      }
+      this.form = this.formBuilder.group({
+        title: ['', Validators.required],
+        poster: [''],
+        genres: ['', Validators.required],
+        actors: ['', Validators.required],
+        studio: ['', Validators.required],
+        year: ['', Validators.required],
+        duration: ['', Validators.required],
+        punctuation: [this.punctuation, Validators.required]
+      });
+    });
+    
+  }
+
+  
+  /**
+   * Método que obtiene el listado de nombres de actores para mostrar chips
+   */
+   getAllActorNames(){
+    this.moviesService.getActorsList().then( data => {
       this.actorsList = data;
       if(this.actorsList){
-        this.getNamesActors();
+        this.allActors = this.moviesService.getNamesActors(this.actorsList);
+        console.log("allACtors", this.allActors)
         this.filteredActors = this.actorCtrl.valueChanges.pipe(
           startWith(null),
           map((actor: string | null) => (actor ? this._filter(actor) : this.allActors.slice())),
         );
       }
     });
+  }
 
+
+  /**
+   * Método que obtiene el listado de nombres de estudios para mostrar select
+   */
+  getAllStudioNames(){
     this.moviesService.getStudiosList().then( data => {
-      console.log('studios', data);
       this.studiosList = data;
       if(this.studiosList){
-        this.getStudiosList();
+        this.allStudios = this.moviesService.getNameStudiosList(this.studiosList);
         this.filteredStudios = this.studioCtrl.valueChanges.pipe(
           startWith(null),
           map((studio: string | null) => (studio ? this._filter(studio) : this.allStudios.slice())),
         );
       }
     });
-    
   }
-  /**
-  * Method gets all names of actors
-  */
-  getNamesActors() {
-    let name, firstname, lastname;
-    this.actorsList.forEach((actor: any) => {
-      console.log(actor);
-      firstname = actor.first_name;
-      lastname = actor.last_name;
-      name = firstname.concat(' ', lastname);
-      this.allActors.push(name)
-      console.warn('name', name);
-      
-    });
-    console.warn('Actores: ', this.allActors);
-  }
-
-  /**
-  * Method gets all names of studios
-  */
-   getStudiosList() {
-    this.studiosList.forEach((studio: any) => {
-      console.log(studio);
-      this.allStudios.push(studio.name);      
-    });
-    console.warn('Estudios: ', this.allStudios);
-  }
-  
+ 
   
   submit() {
     if (this.form.valid) {
-      console.log(this.form.value)
+      //console.log(this.form.value)
     }
     else{
       console.log('this.form.value.title',this.form.value.title)
       console.log('this.form.value.poster', this.form.value.poster)
       console.log('this.form.value.genres',this.form.value.genres)
       console.log('this.form.value.actors',this.actors)
-      console.log('this.form.value.studio',this.studios)
+      console.log('this.form.value.studio',this.form.value.studio)
       console.log('this.form.value.year',this.form.value.year)
       console.log('this.form.value.duration',this.form.value.duration)
       console.log('this.form.value.punctuation',this.form.value.punctuation)
@@ -156,7 +190,7 @@ export class ModalFormComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.allActors.filter(actor => actor.toLowerCase().includes(filterValue));
+    return this.allActors.filter((actor:any) => actor.toLowerCase().includes(filterValue));
   }
 }
 

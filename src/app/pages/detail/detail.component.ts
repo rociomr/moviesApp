@@ -34,8 +34,11 @@ export class DetailComponent implements OnInit {
 
     this.moviesSevice.getActorsList().then( data => {
       this.actorsList = data;
-      this.getNamesActorsMovieSelected();
-      this.getStudioMovieSelected();
+      //this.nameActors
+      let dataSelected = this.moviesSevice.getNamesActorsMovieSelected(this.actorsList, this.movieId);
+      console.log("dataSElected", dataSelected)
+      this.selectedMovie = this.moviesSevice.getStudioMovieSelected();
+      console.log("aqui", this.selectedMovie)
     })
   }
 
@@ -45,7 +48,9 @@ export class DetailComponent implements OnInit {
   getNamesActorsMovieSelected(){
     this.moviesSevice.getMovieObservable().subscribe(data => {
       this.movieData = data;
+      console.log("movieData", this.movieData)
       this.selectedMovie = this.moviesSevice.getSelectedMovie(this.movieData, this.movieId);
+      console.log("selectedMovie actors", this.selectedMovie)
       this.selectedMovie.actors.forEach((actorMovie:any) => {
         this.actorsList.forEach((actorList:any) => {
           if(actorList.id === actorMovie){
@@ -64,6 +69,7 @@ export class DetailComponent implements OnInit {
   getStudioMovieSelected(){
     this.moviesSevice.getStudiosList().then( data => {
       this.studiosList = data;
+      console.log("selectedMovie studio", this.selectedMovie)
       this.studiosList.forEach((studio:any) => {
         studio.movies.forEach((movieStudio:any) => {
           if(movieStudio == this.selectedMovie.id){

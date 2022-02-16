@@ -3,12 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, mergeMap, find, Observable, Subject } from 'rxjs';
 import { Movie } from '../shared/interfaces/data.interface';
 import { map } from 'rxjs';
+import { C } from '@angular/cdk/keycodes';
+
+
 @Injectable()
 export class MoviesAppService {
   selectedMovie: any;
   movies: [] = [];
   isLoading$ = new Subject<boolean>();
-
+  studiosList: any;
   private  $movieObserver = new BehaviorSubject<any>([]);
   //movies$ = this.moviesSubject.asObservable();
   
@@ -57,6 +60,82 @@ export class MoviesAppService {
   }
 
   /**
+   * Método para obtener el nombre de los actores de la película seleccionada
+   */
+   getNamesActorsMovieSelected(actorList:[], movieId: number){
+    let movieData;
+    let nameActors: string[] = [];
+    this.getMovieObservable().subscribe(data => {
+      movieData = data;
+      console.log("movieData", movieData)
+      this.selectedMovie = this.getSelectedMovie(movieData, movieId);
+      console.log("selectedMovie service", this.selectedMovie)
+      //debugger;
+      if(this.selectedMovie){
+        this.selectedMovie.actors.forEach((actorMovie:any) => {
+          actorList.forEach((actorList:any) => {
+            if(actorList.id === actorMovie){
+              let first_name = actorList.first_name;
+              let last_name = actorList.last_name;
+              nameActors.push(first_name +' '+ last_name);
+            }
+          }); 
+        });
+      }
+    })
+   // console.log("nameActors", nameActors)
+    return nameActors;
+  }
+
+  /**
+   * Método para obtener el estudio de la película seleccionada
+   */
+  getStudioMovieSelected(){
+    this.getStudiosList().then( data => {
+      this.studiosList = data;
+      this.studiosList.forEach((studio:any) => {
+        studio.movies.forEach((movieStudio:any) => {
+          if(movieStudio == this.selectedMovie.id){
+           this.selectedMovie.studio = studio.name;
+          }
+        });
+      });
+     // console.log("this.selectedMovie", this.selectedMovie)
+      
+    }); return this.selectedMovie;
+  }
+
+  /**
+   * Método obtiene el listado de nombre de los actores
+   * @param actorsList 
+   * @returns 
+   */
+   getNamesActors(actorsList: []) {
+    let name, firstname, lastname;
+    let allActors: any = [];
+    actorsList.forEach((actor: any) => {
+      firstname = actor.first_name;
+      lastname = actor.last_name;
+      name = firstname.concat(' ', lastname);
+      allActors.push(name)
+    });
+    return allActors;
+  }
+
+  /**
+   * Método obtiene el listado de nombres de los estudios
+   * @param studiosList 
+   * @returns 
+   */
+    getNameStudiosList(studiosList: []) {
+      let allStudios: any = [];
+      studiosList.forEach((studio: any) => {
+        allStudios.push(studio.name);      
+      });
+      return allStudios;
+    }
+
+    /**
      * Devuelve el observable de los datos de peliculas
      * @returns 
      */

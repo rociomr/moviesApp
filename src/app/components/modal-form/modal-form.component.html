@@ -1,99 +1,101 @@
-<mat-card class="contact-card">
-  <mat-card-header>
-    <mat-card-title>Reactive Form</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <form id="contactForm" [formGroup]="form" (ngSubmit)="submit()">
-    <mat-form-field>
-      <input matInput placeholder="Título" formControlName="title" class="form-control"  name="title">
-      
-    </mat-form-field>
-    <br>
-    <mat-form-field>
-      <input matInput placeholder="Póster (url)" formControlName="poster" class="form-control"  name="poster">
-    </mat-form-field>
-    <br>
-   
-    <mat-chip-list #chipList aria-label="Añadir actores">
-        <mat-chip *ngFor="let actor of actors" (removed)="remove(actor)">
-          {{actor}}
+<div class="content" fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%">
+  <mat-card class="contact-card">
+    <mat-card-header>
+      <mat-card-title>{{titleAction}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form id="contactForm" [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field>
+        <input matInput placeholder="Título" formControlName="title" class="form-control"  name="title">
+        
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput placeholder="Póster (url)" formControlName="poster" class="form-control"  name="poster">
+      </mat-form-field>
+      <br>
+    
+      <mat-chip-list #chipList aria-label="Añadir actores">
+          <mat-chip *ngFor="let actor of actors" (removed)="remove(actor)">
+            {{actor}}
+            <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input
+          placeholder="Actores"
+          #actorInput
+          [formControl]="actorCtrl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="add($event)">
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let actor of filteredActors| async" [value]="actor">
+          {{actor}}2
+          </mat-option>
+      </mat-autocomplete>
+      <mat-form-field>
+        <input matInput placeholder="Géneros" formControlName="genres" class="form-control"  name="genres">
+      </mat-form-field>
+      <br>
+    <!-- <mat-chip-list #chipStudiosList aria-label="Añadir estudios">
+        <mat-chip *ngFor="let studio of studios" (removed)="remove(studio)">
+          {{studio}}
           <button matChipRemove>
               <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip>
         <input
-        placeholder="Actores"
-        #actorInput
-        [formControl]="actorCtrl"
+        placeholder="studios"
+        #studioInput
+        [formControl]="studioCtrl"
         [matAutocomplete]="auto"
-        [matChipInputFor]="chipList"
+        [matChipInputFor]="chipStudiosList"
         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
         (matChipInputTokenEnd)="add($event)">
     </mat-chip-list>
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-        <mat-option *ngFor="let actor of filteredActors| async" [value]="actor">
-        {{actor}}2
-        </mat-option>
-    </mat-autocomplete>
-    <mat-form-field>
-      <input matInput placeholder="Géneros" formControlName="genres" class="form-control"  name="genres">
-    </mat-form-field>
-    <br>
-   <!-- <mat-chip-list #chipStudiosList aria-label="Añadir estudios">
-      <mat-chip *ngFor="let studio of studios" (removed)="remove(studio)">
-        {{studio}}
-        <button matChipRemove>
-            <mat-icon>cancel</mat-icon>
-        </button>
-      </mat-chip>
-      <input
-      placeholder="studios"
-      #studioInput
-      [formControl]="studioCtrl"
-      [matAutocomplete]="auto"
-      [matChipInputFor]="chipStudiosList"
-      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-      (matChipInputTokenEnd)="add($event)">
-  </mat-chip-list>
-  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-    <mat-option *ngFor="let studio of filteredStudios| async" [value]="studio">
-    {{studio}}2
-    </mat-option>
-</mat-autocomplete>-->
-    <mat-form-field>
-      <input matInput placeholder="Año" formControlName="year" class="form-control" type="number" name="year">
-    </mat-form-field>
-    <br>
-    <mat-form-field>
-      <input matInput placeholder="Duración (min)" formControlName="duration" class="form-control" type="number"  name="duration">
-    </mat-form-field>
-    <br>
-    <mat-label>Punctuation</mat-label><br>
-    <mat-form-field>
-      <input matInput placeholder="Puntuación" formControlName="punctuation" class="form-control" type="number"  name="punctuation">
-    </mat-form-field>
-    <mat-slider
-        class="example-margin"
-        max="10"
-        min="1"
-        name="punctuation"
-        step="0.1"
-        [thumbLabel]=true
-        [value]=""
-        aria-labelledby="example-name-label">
-    </mat-slider>
-    <br>
-    <mat-form-field appearance="fill">
-      <mat-label>Estudio</mat-label>
-      <mat-select name="food">
-      <mat-option *ngFor="let studio of studiosList" [value]="studio.name">
-        {{studio.name}}
+      <mat-option *ngFor="let studio of filteredStudios| async" [value]="studio">
+      {{studio}}2
       </mat-option>
-    </mat-select>
-    </mat-form-field><br>
-    <button id="btnSubmit" mat-raised-button type="submit" color="primary">Guardar</button>
-    </form>
-  
-  </mat-card-content>
-</mat-card>
+  </mat-autocomplete>-->
+      <mat-form-field>
+        <input matInput placeholder="Año" formControlName="year" class="form-control" type="number" name="year">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput placeholder="Duración (min)" formControlName="duration" class="form-control" type="number"  name="duration">
+      </mat-form-field>
+      <br>
+      
+      <mat-form-field>
+        <input matInput placeholder="Puntuación" formControlName="punctuation" class="form-control" type="number"  name="punctuation">
+      </mat-form-field>
+     <!-- <mat-slider
+          class="example-margin"
+          max="10"
+          min="1"
+          name="punctuation"
+          step="0.1"
+          [thumbLabel]=true
+          [value]=""
+          aria-labelledby="example-name-label">
+      </mat-slider>-->
+      <br>
+      <mat-form-field appearance="fill">
+        <mat-label>Estudio</mat-label>
+        <mat-select name="studio" formControlName="studio">
+          <mat-option *ngFor="let studio of studiosList"  [value]="studio.name">
+            {{studio.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field><br>
+      <button id="btnSubmit" mat-raised-button type="submit" color="primary">Guardar</button>
+      </form>
+    
+    </mat-card-content>
+  </mat-card>
+</div>
   
