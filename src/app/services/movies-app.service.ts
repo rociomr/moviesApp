@@ -12,6 +12,7 @@ export class MoviesAppService {
   movies: [] = [];
   isLoading$ = new Subject<boolean>();
   studiosList: any;
+  baseURL: string = "http://localhost:3000/";
   private  $movieObserver = new BehaviorSubject<any>([]);
   //movies$ = this.moviesSubject.asObservable();
   
@@ -23,7 +24,7 @@ export class MoviesAppService {
    * Método que devuelve el listado de películas
    */
   getMoviesList(){
-    this.http.get('http://localhost:3000/movies').toPromise().then(data => {
+    this.http.get(this.baseURL+'movies').toPromise().then(data => {
       this.setMovieObservable(data);
     })
   }
@@ -32,77 +33,82 @@ export class MoviesAppService {
    * Método que devuelve el listado de actores
    */
   getActorsList(){
-    return this.http.get('http://localhost:3000/actors').toPromise();
+    return this.http.get(this.baseURL+'actors').toPromise();
+  }
+
+  /**
+   * Método que devuelve el listado de actores
+   */
+   getNumberActor(fname:string, lname:string){
+    return this.http.get(this.baseURL+'actors?first_name'+fname+'&lastname'+lname).toPromise();
   }
 
   /**
    * Método que devuelve el listado de estudios
    */
   getStudiosList(){
-    return this.http.get('http://localhost:3000/companies').toPromise();
+    return this.http.get(this.baseURL+'companies').toPromise();
   }
 
   /**
-   * Método que recibe listado e id y devuelve la película selecciona
-   * @param movie 
+   * Método que obtiene la película seleccionada
    * @param id 
    * @returns 
    */
-  getSelectedMovie(movie: any, id: number){
-    let movieSelected : any;
-    movie.map((data: any) => {
-      if(data.id === id){
-        movieSelected = data ;
-      }
-      
-    })
-    return movieSelected;
+  getSelectedMovie(id: number){
+    return this.http.get(this.baseURL+'movies/'+id).toPromise();
+  }
+
+
+  addMovie(movie:Movie): Observable<any> {
+    const headers = { 'content-type': 'application/json'}  
+    const body=JSON.stringify(movie);
+    console.log(body)
+    return this.http.post(this.baseURL + 'movie', body,{'headers':headers})
   }
 
   /**
    * Método para obtener el nombre de los actores de la película seleccionada
    */
-   getNamesActorsMovieSelected(actorList:[], movieId: number){
-    let movieData;
+   getNamesActorsMovieSelected(actorList:[], selectedMovie:any){
     let nameActors: string[] = [];
-    this.getMovieObservable().subscribe(data => {
-      movieData = data;
-      console.log("movieData", movieData)
-      this.selectedMovie = this.getSelectedMovie(movieData, movieId);
-      console.log("selectedMovie service", this.selectedMovie)
-      //debugger;
-      if(this.selectedMovie){
-        this.selectedMovie.actors.forEach((actorMovie:any) => {
+    let numActors: any;
+    this.selectedMovie = selectedMovie;
+      if(selectedMovie){
+        selectedMovie.actors.forEach((actorMovie:any) => {
           actorList.forEach((actorList:any) => {
             if(actorList.id === actorMovie){
               let first_name = actorList.first_name;
               let last_name = actorList.last_name;
-              nameActors.push(first_name +' '+ last_name);
+              nameActors.push(first_name +' '+ last_name, actorList.id);
+             // numActors.push(actorList.id)
             }
           }); 
         });
       }
-    })
-   // console.log("nameActors", nameActors)
+     /* let object = {
+        "name": nameActors,
+        "number": numActors
+      }*/
+      console.log("object", nameActors)
     return nameActors;
   }
 
   /**
    * Método para obtener el estudio de la película seleccionada
    */
-  getStudioMovieSelected(){
+  getStudioMovieSelected(selectedMovie: Movie){
     this.getStudiosList().then( data => {
       this.studiosList = data;
       this.studiosList.forEach((studio:any) => {
         studio.movies.forEach((movieStudio:any) => {
-          if(movieStudio == this.selectedMovie.id){
+          if(movieStudio == selectedMovie.id){
            this.selectedMovie.studio = studio.name;
           }
         });
       });
-     // console.log("this.selectedMovie", this.selectedMovie)
-      
-    }); return this.selectedMovie;
+    }); 
+    return this.selectedMovie;
   }
 
   /**

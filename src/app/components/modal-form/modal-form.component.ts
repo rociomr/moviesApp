@@ -24,7 +24,7 @@ export class ModalFormComponent implements OnInit {
   action: string;
   titleAction: string;
   punctuation = 3;
-  form:any;
+  form: any;
   nameActors: string[] = [];
   actorsList: any = [];
   studiosList: any = [];
@@ -38,8 +38,7 @@ export class ModalFormComponent implements OnInit {
 
   @ViewChild('actorInput') actorInput!: ElementRef<HTMLInputElement>;
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private element: ElementRef, private moviesService: MoviesAppService){
-    this.getAllActorNames();
-    this.getAllStudioNames();
+   
   }
   ngOnInit() {
     
@@ -50,17 +49,18 @@ export class ModalFormComponent implements OnInit {
      
         if(this.action === 'edit'){
          this.editMovieInfo();
-        }else if(this.action === 'new'){
-          this.newMovieInfo();
+        }else if(this.action === 'add'){
+          this.addMovieInfo();
         }
       })).subscribe();
 
-    
+      this.getAllActorNames();
+      this.getAllStudioNames();
     
     
   }
 
-  newMovieInfo(){
+  addMovieInfo(){
     this.titleAction = 'Nueva película';
     this.form = this.formBuilder.group({
       title: ['', Validators.required],
@@ -72,12 +72,10 @@ export class ModalFormComponent implements OnInit {
       duration: ['', Validators.required],
       punctuation: ['', Validators.required]
     });
-    
   }
 
   editMovieInfo(){
-    this.titleAction = 'Editar película';
-   
+    /*this.titleAction = 'Editar película';
     this.moviesService.getActorsList().then( data => {
       this.actorsList = data;
       if(this.actorsList.length > 0){
@@ -95,7 +93,7 @@ export class ModalFormComponent implements OnInit {
         duration: ['', Validators.required],
         punctuation: [this.punctuation, Validators.required]
       });
-    });
+    });*/
     
   }
 
@@ -137,7 +135,24 @@ export class ModalFormComponent implements OnInit {
   
   submit() {
     if (this.form.valid) {
-      //console.log(this.form.value)
+      alert("OK")
+      let movie = {
+        "id": 11,
+        "title": this.form.value.title,
+        "poster": this.form.value.poster,
+        "genre": [this.form.value.genres],
+        "year": this.form.value.year,
+        "duration": this.form.value.duration,
+        "imdbRating": this.form.value.punctuation,
+        "actors": this.actors
+    }
+      this.moviesService.addMovie(movie);
+      this.moviesService.addMovie(movie)
+      .subscribe(data => {
+        console.log("dataaaaaaa", data)
+        //this.refreshPeople();
+      }) 
+      
     }
     else{
       console.log('this.form.value.title',this.form.value.title)
@@ -152,6 +167,7 @@ export class ModalFormComponent implements OnInit {
     }
   }
 
+
   /**
   * Method add actors
   * @param event 
@@ -159,12 +175,12 @@ export class ModalFormComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    // Add our actor
+    // Añade actor
     if (value) {
       this.actors.push(value);
     }
 
-    // Clear the input value
+    // Limpia el valor del input
     event.chipInput!.clear();
 
     this.actorCtrl.setValue(null);

@@ -15,8 +15,8 @@
       </mat-form-field>
       <br>
     
-      <mat-chip-list #chipList aria-label="Añadir actores">
-          <mat-chip *ngFor="let actor of actors" (removed)="remove(actor)">
+      <mat-chip-list #chipList aria-label="Añadir actores" >
+          <mat-chip *ngFor="let actor of actors" (removed)="remove(actor)" >
             {{actor}}
             <button matChipRemove>
                 <mat-icon>cancel</mat-icon>
@@ -28,12 +28,13 @@
           [formControl]="actorCtrl"
           [matAutocomplete]="auto"
           [matChipInputFor]="chipList"
+          formControlName="actors"
           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
           (matChipInputTokenEnd)="add($event)">
       </mat-chip-list>
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
           <mat-option *ngFor="let actor of filteredActors| async" [value]="actor">
-          {{actor}}2
+          {{actor}}
           </mat-option>
       </mat-autocomplete>
       <mat-form-field>
