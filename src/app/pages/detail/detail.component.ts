@@ -22,7 +22,7 @@ export class DetailComponent implements OnInit {
   nameActors: string[] = [];
   _movieDataSubscription: Subscription;
 
-  constructor(private moviesSevice: MoviesAppService, private route: ActivatedRoute) {}
+  constructor(private moviesService: MoviesAppService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.params.pipe(
@@ -30,53 +30,17 @@ export class DetailComponent implements OnInit {
       tap(({id})  => {
         this.movieId = parseInt(id);
       }))
-      .subscribe();
+    .subscribe();
 
-    this.moviesSevice.getActorsList().then( data => {
-      this.actorsList = data;
-      //this.nameActors
-      let dataSelected = this.moviesSevice.getNamesActorsMovieSelected(this.actorsList, this.movieId);
-      console.log("dataSElected", dataSelected)
-      this.selectedMovie = this.moviesSevice.getStudioMovieSelected();
-      console.log("aqui", this.selectedMovie)
-    })
-  }
-
-  /**
-   * Método para obtener el nombre de los actores de la película seleccionada
-   */
-  getNamesActorsMovieSelected(){
-    this.moviesSevice.getMovieObservable().subscribe(data => {
-      this.movieData = data;
-      console.log("movieData", this.movieData)
-      this.selectedMovie = this.moviesSevice.getSelectedMovie(this.movieData, this.movieId);
-      console.log("selectedMovie actors", this.selectedMovie)
-      this.selectedMovie.actors.forEach((actorMovie:any) => {
-        this.actorsList.forEach((actorList:any) => {
-          if(actorList.id === actorMovie){
-            let first_name = actorList.first_name;
-            let last_name = actorList.last_name;
-            this.nameActors.push(first_name +' '+ last_name)
-          }
-        })
-      });
-    })
-  }
-
-  /**
-   * Método para obtener el estudio de la película seleccionada
-   */
-  getStudioMovieSelected(){
-    this.moviesSevice.getStudiosList().then( data => {
-      this.studiosList = data;
-      console.log("selectedMovie studio", this.selectedMovie)
-      this.studiosList.forEach((studio:any) => {
-        studio.movies.forEach((movieStudio:any) => {
-          if(movieStudio == this.selectedMovie.id){
-           this.selectedMovie.studio = studio.name;
-          }
-        });
-      });
-    }) 
+    this.moviesService.getSelectedMovie(this.movieId).then((data:any) =>{
+      this.selectedMovie = data;
+      this.moviesService.getActorsList().then( data => {
+        this.actorsList = data;
+        let dataActors = this.moviesService.getNamesActorsMovieSelected(this.actorsList, this.selectedMovie);
+        let numActors = dataActors.filter(num => typeof num == 'number')
+        this.nameActors = dataActors.filter(actor => typeof actor == 'string')
+      })
+      this.moviesService.getStudioMovieSelected(this.selectedMovie);
+    });
   }
 }
