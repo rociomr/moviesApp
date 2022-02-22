@@ -12,6 +12,7 @@ export class MoviesAppService {
   movies: [] = [];
   isLoading$ = new Subject<boolean>();
   studiosList: any;
+  nextID: number;
   baseURL: string = "http://localhost:3000/";
   private  $movieObserver = new BehaviorSubject<any>([]);
   //movies$ = this.moviesSubject.asObservable();
@@ -21,10 +22,15 @@ export class MoviesAppService {
   }
 
   /**
-   * Método que devuelve el listado de películas
+   * Método que devuelve el listado de películas y guarda último id
    */
   getMoviesList(){
-    this.http.get(this.baseURL+'movies').toPromise().then(data => {
+    this.http.get(this.baseURL+'movies').subscribe((data:any )=> {
+      let nextID = 0;
+      data.forEach((dataMovie: any) => {
+        nextID = dataMovie.id;
+      });
+      this.setNextID(nextID+1);
       this.setMovieObservable(data);
     })
   }
@@ -37,7 +43,14 @@ export class MoviesAppService {
   }
 
   /**
-   * Método que devuelve el listado de actores
+   * Método que devuelve el nombre del listado de actores
+   */
+   getNamesActor(fname:string, lname:string){
+    return this.http.get(this.baseURL+'actors?first_name='+fname+'&lastname='+lname).toPromise();
+  }
+
+  /**
+   * Método que devuelve el nombre del listado de actores
    */
    getNumberActor(fname:string, lname:string){
     return this.http.get(this.baseURL+'actors?first_name'+fname+'&lastname'+lname).toPromise();
@@ -59,19 +72,22 @@ export class MoviesAppService {
     return this.http.get(this.baseURL+'movies/'+id).toPromise();
   }
 
-
-  addMovie(movie:Movie): Observable<any> {
-    const headers = { 'content-type': 'application/json'}  
-    const body=JSON.stringify(movie);
-    console.log(body)
-    return this.http.post(this.baseURL + 'movie', body,{'headers':headers})
+  /**
+   * Método que añade una película a la bbdd
+   * @param movie 
+   * @returns 
+   */
+  addMovie(movie:any): Observable<any> {
+    const headers = { 'content-type': 'application/json'};
+    const body = movie;
+    return this.http.post(this.baseURL + 'movies', body, {'headers':headers})
   }
 
   /**
-   * Método para obtener el nombre de los actores de la película seleccionada
+   * Método para obtener el nombre y número de los actores de la película seleccionada
    */
    getNamesActorsMovieSelected(actorList:[], selectedMovie:any){
-    let nameActors: string[] = [];
+    let dataActors: string[] = [];
     let numActors: any;
     this.selectedMovie = selectedMovie;
       if(selectedMovie){
@@ -80,7 +96,7 @@ export class MoviesAppService {
             if(actorList.id === actorMovie){
               let first_name = actorList.first_name;
               let last_name = actorList.last_name;
-              nameActors.push(first_name +' '+ last_name, actorList.id);
+              dataActors.push(first_name +' '+ last_name, actorList.id);
              // numActors.push(actorList.id)
             }
           }); 
@@ -90,8 +106,8 @@ export class MoviesAppService {
         "name": nameActors,
         "number": numActors
       }*/
-      console.log("object", nameActors)
-    return nameActors;
+      console.log("object", dataActors)
+    return dataActors;
   }
 
   /**
@@ -165,4 +181,33 @@ export class MoviesAppService {
     this.isLoading$.next(false);
   }
 
+  getNumberActorsMovieSelected(actors:any){
+    let dataActors: string[] = [];
+    let names: any;
+    //this.actors = actors;
+    console.log("actors", actors)
+  
+  
+      if(actors){
+        actors.forEach((actorMovie:any) => {
+          let names = actorMovie.split(' ');
+          console.log("names", names)
+         
+              dataActors.push(names);
+             // numActors.push(actorList.id)
+        })
+      
+      }
+      console.log("names", dataActors)
+    return dataActors;
+  
+  }
+
+  setNextID(nextID: number){
+    this.nextID = nextID;
+  }
+
+  getNextID(){
+   return  this.nextID;
+  }
 }

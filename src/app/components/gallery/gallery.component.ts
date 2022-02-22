@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MoviesAppService} from '../../services/movies-app.service';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-gallery',
@@ -18,7 +18,6 @@ export class GalleryComponent implements OnInit {
   }
 
   goToDetail(movie: any) {
-    //this.moviesService.setSelectedMovie(movie);
     this.router.navigate(['/detail/', movie.id]);
   }
 

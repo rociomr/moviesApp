@@ -8,7 +8,7 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {map, startWith} from 'rxjs/operators';
 import { MoviesAppService} from '../../services/movies-app.service';
 import { ActivatedRoute } from '@angular/router';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modal-form',
@@ -16,11 +16,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./modal-form.component.scss']
 })
 export class ModalFormComponent implements OnInit {
-  
-  invert = false;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  studioCtrl = new FormControl();
-  filteredStudios: Observable<string[]>;
+ 
   action: string;
   titleAction: string;
   punctuation = 3;
@@ -30,18 +26,10 @@ export class ModalFormComponent implements OnInit {
   studiosList: any = [];
   studio: string[];
   allStudios: string[] = [];
-  actorCtrl = new FormControl();
-  filteredActors: Observable<string[]>;
-  actors: string[] = ['Ejemplo'];
-  allActors: any = [];
-  disableSelect = new FormControl(false);
 
-  @ViewChild('actorInput') actorInput!: ElementRef<HTMLInputElement>;
-  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private element: ElementRef, private moviesService: MoviesAppService){
-   
-  }
+  constructor(private route: ActivatedRoute, private router: Router, private formBuilder: FormBuilder, private element: ElementRef, private moviesService: MoviesAppService){}
+
   ngOnInit() {
-    
     this.route.params.pipe(
       take(1),
       tap(({action})  => {
@@ -52,12 +40,9 @@ export class ModalFormComponent implements OnInit {
         }else if(this.action === 'add'){
           this.addMovieInfo();
         }
-      })).subscribe();
-
-      this.getAllActorNames();
-      this.getAllStudioNames();
-    
-    
+    })).subscribe();
+    this.getAllActors();
+    this.getAllStudioNames();
   }
 
   addMovieInfo(){
@@ -66,11 +51,11 @@ export class ModalFormComponent implements OnInit {
       title: ['', Validators.required],
       poster: [''],
       genres: ['', Validators.required],
-      actors: ['', Validators.required],
       studio: ['', Validators.required],
       year: ['', Validators.required],
       duration: ['', Validators.required],
-      punctuation: ['', Validators.required]
+      punctuation: ['', Validators.required],
+      actors:['',Validators.required]
     });
   }
 
@@ -99,114 +84,67 @@ export class ModalFormComponent implements OnInit {
 
   
   /**
-   * Método que obtiene el listado de nombres de actores para mostrar chips
+   * Método que obtiene el listado de actores
    */
-   getAllActorNames(){
+  getAllActors(){
     this.moviesService.getActorsList().then( data => {
       this.actorsList = data;
-      if(this.actorsList){
-        this.allActors = this.moviesService.getNamesActors(this.actorsList);
-        console.log("allACtors", this.allActors)
-        this.filteredActors = this.actorCtrl.valueChanges.pipe(
-          startWith(null),
-          map((actor: string | null) => (actor ? this._filter(actor) : this.allActors.slice())),
-        );
-      }
     });
+  }
+
+  getAllMovies(){
+    this.moviesService.getMoviesList();
   }
 
 
   /**
-   * Método que obtiene el listado de nombres de estudios para mostrar select
+   * Método que obtiene el listado de estudios 
    */
   getAllStudioNames(){
     this.moviesService.getStudiosList().then( data => {
       this.studiosList = data;
-      if(this.studiosList){
-        this.allStudios = this.moviesService.getNameStudiosList(this.studiosList);
-        this.filteredStudios = this.studioCtrl.valueChanges.pipe(
-          startWith(null),
-          map((studio: string | null) => (studio ? this._filter(studio) : this.allStudios.slice())),
-        );
-      }
+      
     });
   }
  
   
   submit() {
     if (this.form.valid) {
-      alert("OK")
-      let movie = {
-        "id": 11,
-        "title": this.form.value.title,
-        "poster": this.form.value.poster,
-        "genre": [this.form.value.genres],
-        "year": this.form.value.year,
-        "duration": this.form.value.duration,
-        "imdbRating": this.form.value.punctuation,
-        "actors": this.actors
-    }
-      this.moviesService.addMovie(movie);
-      this.moviesService.addMovie(movie)
-      .subscribe(data => {
-        console.log("dataaaaaaa", data)
-        //this.refreshPeople();
-      }) 
-      
+      this.addMovie();
     }
     else{
-      console.log('this.form.value.title',this.form.value.title)
-      console.log('this.form.value.poster', this.form.value.poster)
-      console.log('this.form.value.genres',this.form.value.genres)
-      console.log('this.form.value.actors',this.actors)
-      console.log('this.form.value.studio',this.form.value.studio)
-      console.log('this.form.value.year',this.form.value.year)
-      console.log('this.form.value.duration',this.form.value.duration)
-      console.log('this.form.value.punctuation',this.form.value.punctuation)
-      alert("FILL ALL FIELDS")
+      alert("FILL ALL FIELDS");
+     console.log('this.form.value.title',this.form.value.title)
+     console.log('this.form.value.poster', this.form.value.poster)
+     console.log('this.form.value.genres',this.form.value.genres)
+     console.log('this.form.value.studio',this.form.value.studio)
+     console.log('this.form.value.year',this.form.value.year)
+     console.log('this.form.value.duration',this.form.value.duration)
+     console.log('this.form.value.punctuation',this.form.value.punctuation)
+     console.log('this.form.value.actors',this.form.value.actors)
+    
     }
   }
 
-
-  /**
-  * Method add actors
-  * @param event 
-  */
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
-    // Añade actor
-    if (value) {
-      this.actors.push(value);
+  addMovie(){
+    let movie;
+    movie = {
+      "id": this.moviesService.getNextID(),
+      "title": this.form.value.title,
+      "poster": this.form.value.poster,
+      "genre": [this.form.value.genres],
+      "year": this.form.value.year,
+      "duration": this.form.value.duration,
+      "imdbRating": this.form.value.punctuation,
+      "actors": this.form.value.actors
     }
+    this.moviesService.addMovie(movie)
+    .subscribe(data => {
+      this.getAllMovies();
+      this.router.navigate(['/home']);
+    },error =>{
 
-    // Limpia el valor del input
-    event.chipInput!.clear();
-
-    this.actorCtrl.setValue(null);
-  }
-
-  /**
-   * Method remove actor
-   * @param actor 
-   */ 
-  remove(actor: string): void {
-    const index = this.actors.indexOf(actor);
-
-    if (index >= 0) {
-      this.actors.splice(index, 1);
-    }
-  }
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.actors.push(event.option.viewValue);
-    this.actorInput.nativeElement.value = '';
-    this.actorCtrl.setValue(null);
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.allActors.filter((actor:any) => actor.toLowerCase().includes(filterValue));
+    })
   }
 }
 
