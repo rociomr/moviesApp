@@ -5,10 +5,10 @@ import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import { Observable, take, tap } from 'rxjs';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {map, startWith} from 'rxjs/operators';
 import { MoviesAppService} from '../../services/movies-app.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { Movie } from 'src/app/shared/interfaces/data.interface';
 
 @Component({
   selector: 'app-modal-form',
@@ -21,6 +21,9 @@ export class ModalFormComponent implements OnInit {
   titleAction: string;
   punctuation = 3;
   form: any;
+  movieId:number;
+  selectedMovie: any;
+  selectedMovie2: Movie;
   nameActors: string[] = [];
   actorsList: any = [];
   studiosList: any = [];
@@ -32,9 +35,9 @@ export class ModalFormComponent implements OnInit {
   ngOnInit() {
     this.route.params.pipe(
       take(1),
-      tap(({action})  => {
+      tap(({action, id})  => {
         this.action = action;
-     
+        this.movieId = id;
         if(this.action === 'edit'){
          this.editMovieInfo();
         }else if(this.action === 'add'){
@@ -60,25 +63,43 @@ export class ModalFormComponent implements OnInit {
   }
 
   editMovieInfo(){
-    /*this.titleAction = 'Editar película';
-    this.moviesService.getActorsList().then( data => {
-      this.actorsList = data;
-      if(this.actorsList.length > 0){
+    this.titleAction = 'Editar película';
+   // this.moviesService.getActorsList().then( data => {
+    //  this.actorsList = data;
+      /*if(this.actorsList.length > 0){
         console.log("this.actorlist", this.actorsList)
         this.nameActors = this.moviesService.getNamesActorsMovieSelected(this.actorsList, 2);
         console.log("nameActors", this.nameActors)
-      }
-      this.form = this.formBuilder.group({
-        title: ['', Validators.required],
-        poster: [''],
-        genres: ['', Validators.required],
-        actors: ['', Validators.required],
-        studio: ['', Validators.required],
-        year: ['', Validators.required],
-        duration: ['', Validators.required],
-        punctuation: [this.punctuation, Validators.required]
-      });
-    });*/
+      }*/
+     // this.moviesService.getSelectedMovie(this.movieId).then((data:any) =>{
+       // this.selectedMovie = data;
+       // console.log("this.selectedMovie2", this.selectedMovie)
+        /*this.moviesService.getActorsList().then( data => {
+          this.actorsList = data;
+          let dataActors = this.moviesService.getNamesActorsMovieSelected(this.actorsList, this.selectedMovie);
+          let numActors = dataActors.filter(num => typeof num == 'number')
+          this.nameActors = dataActors.filter(actor => typeof actor == 'string')
+          console.log("numActors", numActors)
+        })*/
+        this.selectedMovie = this.moviesService.getSelectedMovies();
+        console.warn("this.selectedMovie.studio", this.selectedMovie.studio)
+        this.form = this.formBuilder.group({
+          title: [this.selectedMovie.title, Validators.required],
+          poster: [this.selectedMovie.poster],
+          genres: [this.selectedMovie.genre, Validators.required],
+          studio: [this.selectedMovie.studio, Validators.required],
+          year: [this.selectedMovie.year, Validators.required],
+          duration: [this.selectedMovie.duration, Validators.required],
+          punctuation: [this.selectedMovie.imdbRating, Validators.required],
+          actors:[this.selectedMovie.actors,Validators.required]
+        });
+
+      
+    //  });
+      
+    
+      
+   // });
     
   }
 
@@ -110,7 +131,11 @@ export class ModalFormComponent implements OnInit {
   
   submit() {
     if (this.form.valid) {
-      this.addMovie();
+      if(this.action == 'add'){
+        this.addMovie();
+      }else if(this.action == 'edit'){
+        this.editMovie();
+      }
     }
     else{
       alert("FILL ALL FIELDS");
@@ -146,5 +171,28 @@ export class ModalFormComponent implements OnInit {
 
     })
   }
+
+  editMovie(){
+    let movie;
+    movie = {
+      "id": this.movieId,
+      "title": this.form.value.title,
+      "poster": this.form.value.poster,
+      "genre": [this.form.value.genres],
+      "year": this.form.value.year,
+      "duration": this.form.value.duration,
+      "imdbRating": this.form.value.punctuation,
+      "actors": this.form.value.actors
+    }
+    this.moviesService.editMovie(movie)
+    .subscribe(data => {
+      console.log("data", data)
+      this.getAllMovies();
+      this.router.navigate(['/home']);
+    },error =>{
+
+    })
+  }
+
 }
 

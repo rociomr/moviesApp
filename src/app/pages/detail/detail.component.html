@@ -41,7 +41,7 @@
     <button mat-fab class="delete-button flotante" color="accent" routerLink="">
         <mat-icon class="material-icons-round">delete</mat-icon>
     </button>
-    <button mat-fab class="edit-button flotante-edit" color="primary" routerLink="/form/edit">
+    <button mat-fab class="edit-button flotante-edit" color="primary" [routerLink]="['/form/edit/', movieId]">
         <mat-icon class="material-icons-round">edit</mat-icon>
     </button>
 </div>

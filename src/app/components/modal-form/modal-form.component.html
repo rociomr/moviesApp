@@ -4,7 +4,7 @@
       <mat-card-title>{{titleAction}}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-    <form id="contactForm" [formGroup]="form" (ngSubmit)="submit()">
+    <form id="contactForm" *ngIf="selectedMovie  || this.titleAction === 'Nueva película'" [formGroup]="form" (ngSubmit)="submit()">
       <mat-form-field>
         <input matInput placeholder="Título" formControlName="title" class="form-control"  name="title">
         
@@ -48,4 +48,3 @@
     </mat-card-content>
   </mat-card>
 </div>
-  
