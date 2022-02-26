@@ -1,0 +1,48 @@
+.detail-content {
+    justify-content: center;
+    display: inline-flex;
+    flex-wrap: wrap;
+
+        font-size: 16px;
+    
+}
+
+.form-control:focus {
+    border-color: transparent;
+    box-shadow: 0 0 0 0 transparent;
+}
+
+.mat-card-header {
+    /* display: flex; */
+    flex-direction: row;
+    text-align: center;
+    //background-color: #ff4081;
+}
+
+.example-form {
+    min-width: 350px;
+    max-width: 800px;
+    width: 100%;
+    font-size: 16px;
+  }
+  
+.example-full-width {
+    width: 100%;
+}
+
+.mat-card {
+    transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    position: relative;
+    padding: 16px;
+    border-radius: 4px;
+    background-color: #3e3ebb21;
+}
+
+.mat-card:not([class*=mat-elevation-z]) {
+    box-shadow: 0 0 0 0 transparent;
+}
+
+.mat-card-header .mat-card-title {
+    margin: 12px;
+}

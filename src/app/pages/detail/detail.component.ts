@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MoviesAppService } from 'src/app/services/movies-app.service';
 import { Observable, take, tap } from 'rxjs';
 import { Subscription } from 'rxjs';
-import { Actor } from 'src/app/shared/interfaces/data.interface';
+import { LoadingService } from 'src/app/shared/loading/loading.service';
 
 @Component({
   selector: 'app-detail',
@@ -22,9 +22,10 @@ export class DetailComponent implements OnInit {
   nameActors: string[] = [];
   _movieDataSubscription: Subscription;
 
-  constructor(private moviesService: MoviesAppService, private route: ActivatedRoute) {}
+  constructor(private loadingService: LoadingService,private moviesService: MoviesAppService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.loadingService.showLoader();
     this.route.params.pipe(
       take(1),
       tap(({id})  => {
@@ -34,11 +35,14 @@ export class DetailComponent implements OnInit {
 
     this.moviesService.getSelectedMovie(this.movieId).then((data:any) =>{
       this.selectedMovie = data;
+
       this.moviesService.getActorsList().then( data => {
         this.actorsList = data;
         let dataActors = this.moviesService.getNamesActorsMovieSelected(this.actorsList, this.selectedMovie);
         let numActors = dataActors.filter(num => typeof num == 'number')
         this.nameActors = dataActors.filter(actor => typeof actor == 'string')
+        console.log("numActors", numActors)
+        this.loadingService.hideLoader();
       })
       this.moviesService.getStudioMovieSelected(this.selectedMovie);
     });

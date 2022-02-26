@@ -1,16 +1,13 @@
-import { Component, OnInit,  ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit,  ElementRef, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
-import {FormControl} from '@angular/forms';
-import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
-import {MatChipInputEvent} from '@angular/material/chips';
 import { Observable, take, tap } from 'rxjs';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { MoviesAppService} from '../../services/movies-app.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { Movie } from 'src/app/shared/interfaces/data.interface';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: 'app-modal-form',
   templateUrl: './modal-form.component.html',
   styleUrls: ['./modal-form.component.scss']
@@ -64,43 +61,18 @@ export class ModalFormComponent implements OnInit {
 
   editMovieInfo(){
     this.titleAction = 'Editar película';
-   // this.moviesService.getActorsList().then( data => {
-    //  this.actorsList = data;
-      /*if(this.actorsList.length > 0){
-        console.log("this.actorlist", this.actorsList)
-        this.nameActors = this.moviesService.getNamesActorsMovieSelected(this.actorsList, 2);
-        console.log("nameActors", this.nameActors)
-      }*/
-     // this.moviesService.getSelectedMovie(this.movieId).then((data:any) =>{
-       // this.selectedMovie = data;
-       // console.log("this.selectedMovie2", this.selectedMovie)
-        /*this.moviesService.getActorsList().then( data => {
-          this.actorsList = data;
-          let dataActors = this.moviesService.getNamesActorsMovieSelected(this.actorsList, this.selectedMovie);
-          let numActors = dataActors.filter(num => typeof num == 'number')
-          this.nameActors = dataActors.filter(actor => typeof actor == 'string')
-          console.log("numActors", numActors)
-        })*/
-        this.selectedMovie = this.moviesService.getSelectedMovies();
-        console.warn("this.selectedMovie.studio", this.selectedMovie.studio)
-        this.form = this.formBuilder.group({
-          title: [this.selectedMovie.title, Validators.required],
-          poster: [this.selectedMovie.poster],
-          genres: [this.selectedMovie.genre, Validators.required],
-          studio: [this.selectedMovie.studio, Validators.required],
-          year: [this.selectedMovie.year, Validators.required],
-          duration: [this.selectedMovie.duration, Validators.required],
-          punctuation: [this.selectedMovie.imdbRating, Validators.required],
-          actors:[this.selectedMovie.actors,Validators.required]
-        });
-
-      
-    //  });
-      
-    
-      
-   // });
-    
+    this.selectedMovie = this.moviesService.getSelectedMovies();
+    console.warn("this.selectedMovie.studio", this.selectedMovie.studio)
+    this.form = this.formBuilder.group({
+      title: [this.selectedMovie.title, Validators.required],
+      poster: [this.selectedMovie.poster],
+      genres: [this.selectedMovie.genre, Validators.required],
+      studio: [this.selectedMovie.studio, Validators.required],
+      year: [this.selectedMovie.year, Validators.required],
+      duration: [this.selectedMovie.duration, Validators.required],
+      punctuation: [this.selectedMovie.imdbRating, Validators.required],
+      actors:[this.selectedMovie.actors,Validators.required]
+    });
   }
 
   
@@ -138,16 +110,7 @@ export class ModalFormComponent implements OnInit {
       }
     }
     else{
-      alert("FILL ALL FIELDS");
-     console.log('this.form.value.title',this.form.value.title)
-     console.log('this.form.value.poster', this.form.value.poster)
-     console.log('this.form.value.genres',this.form.value.genres)
-     console.log('this.form.value.studio',this.form.value.studio)
-     console.log('this.form.value.year',this.form.value.year)
-     console.log('this.form.value.duration',this.form.value.duration)
-     console.log('this.form.value.punctuation',this.form.value.punctuation)
-     console.log('this.form.value.actors',this.form.value.actors)
-    
+      alert("Falta algún campo por rellenar");
     }
   }
 

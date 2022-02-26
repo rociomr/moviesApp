@@ -84,6 +84,18 @@ export class MoviesAppService {
   }
 
   /**
+   * Método que añade una película a la bbdd
+   * @param movie 
+   * @returns 
+   */
+   editMovie(movie:any): Observable<any> {
+    const headers = { 'content-type': 'application/json'};
+    const body = movie;
+    console.log("movie edit ", movie)
+    return this.http.put(this.baseURL + 'movies/'+movie.id, body, {'headers':headers})
+  }
+
+  /**
    * Método para obtener el nombre y número de los actores de la película seleccionada
    */
    getNamesActorsMovieSelected(actorList:[], selectedMovie:any){
@@ -113,17 +125,28 @@ export class MoviesAppService {
   /**
    * Método para obtener el estudio de la película seleccionada
    */
-  getStudioMovieSelected(selectedMovie: Movie){
+  getStudioMovieSelected(selectedMovie: any){
     this.getStudiosList().then( data => {
       this.studiosList = data;
       this.studiosList.forEach((studio:any) => {
         studio.movies.forEach((movieStudio:any) => {
           if(movieStudio == selectedMovie.id){
-           this.selectedMovie.studio = studio.name;
+            selectedMovie.studio = studio.name;
+            this.selectedMovie = selectedMovie;
           }
         });
       });
     }); 
+    this.setSelectedMovie(this.selectedMovie)
+  }
+
+  setSelectedMovie(selectedMovie:any){
+    console.warn('PASA SELECTED MOVIE');
+    this.selectedMovie = selectedMovie;
+  }
+
+  getSelectedMovies(){
+    console.warn('PASA GET SELECTED MOVIE');
     return this.selectedMovie;
   }
 

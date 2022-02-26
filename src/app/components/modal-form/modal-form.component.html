@@ -1,35 +1,43 @@
-<div class="content" fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%">
+<div class="content">
+  <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%" class="detail-content">
+  <div class="detail-content">
   <mat-card class="contact-card">
     <mat-card-header>
       <mat-card-title>{{titleAction}}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-    <form id="contactForm" *ngIf="selectedMovie  || this.titleAction === 'Nueva película'" [formGroup]="form" (ngSubmit)="submit()">
-      <mat-form-field>
-        <input matInput placeholder="Título" formControlName="title" class="form-control"  name="title">
+    <form class="form-content example-form" id="contactForm" *ngIf="selectedMovie  || this.titleAction === 'Nueva película'" [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Título</mat-label>
+        <input matInput formControlName="title" class="form-control"  name="title">
         
       </mat-form-field>
       <br>
-      <mat-form-field>
-        <input matInput placeholder="Póster (url)" formControlName="poster" class="form-control"  name="poster">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Póster (url)</mat-label>
+        <input matInput formControlName="poster" class="form-control"  name="poster">
       </mat-form-field>
       <br>
-      <mat-form-field>
-        <input matInput placeholder="Géneros" formControlName="genres" class="form-control"  name="genres">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Géneros</mat-label>
+        <input matInput formControlName="genres" class="form-control"  name="genres">
       </mat-form-field><br>
-      <mat-form-field>
-        <input matInput placeholder="Año" formControlName="year" class="form-control" type="number" name="year">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Año</mat-label>
+        <input matInput formControlName="year" class="form-control" type="number" name="year">
       </mat-form-field>
       <br>
-      <mat-form-field>
-        <input matInput placeholder="Duración (min)" formControlName="duration" min="60" class="form-control" type="number"  name="duration">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Duración (min)</mat-label>
+        <input matInput formControlName="duration" min="60" class="form-control" type="number"  name="duration">
       </mat-form-field>
       <br>
       
-      <mat-form-field>
-        <input matInput placeholder="Puntuación" formControlName="punctuation" min="1" max="10" class="form-control" type="number"  name="punctuation">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Título</mat-label>
+        <input matInput  formControlName="punctuation" min="1" max="10" class="form-control" type="number"  name="punctuation">
       </mat-form-field><br>
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Estudio</mat-label>
         <mat-select name="studio" formControlName="studio">
           <mat-option *ngFor="let studio of studiosList"  [value]="studio.name">
@@ -37,14 +45,16 @@
           </mat-option>
         </mat-select>
       </mat-form-field><br>
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>Actores</mat-label>
         <mat-select formControlName="actors" multiple >
           <mat-option *ngFor="let actor of actorsList" [value]="actor.id" >{{actor.first_name}} {{actor.last_name}}</mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field><br>
       <button id="btnSubmit" mat-raised-button type="submit" color="primary">Guardar</button>
     </form>
     </mat-card-content>
   </mat-card>
+  </div>
+</div>
 </div>
