@@ -5,8 +5,14 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //import { MaterialModule } from "./amaterial.module";
 import { PagesModule } from './pages/pages.module';
-import { HttpClientModule } from '@angular/common/http';
-//import { MoviesService } from './services/movies.service';
+import { HttpClient, HttpClientModule} from '@angular/common/http';
+import { TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -17,7 +23,17 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     BrowserAnimationsModule,
     PagesModule,
-    HttpClientModule
+    HttpClientModule,
+    TranslateModule.forRoot(  {
+      loader: { 
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+  ],
+  providers: [ 
+    
   ],
   bootstrap: [AppComponent]
 })

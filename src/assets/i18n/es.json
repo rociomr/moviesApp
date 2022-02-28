@@ -1,0 +1,9 @@
+{
+    "COMMON": {
+        "MOVIES": "Películas",
+        "ACTORS": "Actores",
+        "COMPANIES": "Estudios",
+        "CANCEL": "Cancelar",
+        "GUARDAR": "Guardar"
+    }
+}
