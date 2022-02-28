@@ -2,11 +2,12 @@ export interface Movie {
     id: number,
     title: string,
     poster: string,
-    genre: [string],
+    genre: string[],
     year: number,
     duration: number,
     imdbRating: number,
-    actors: [string]
+    actors: string[]
+    studio: string;
 }
 
 export interface Actor {

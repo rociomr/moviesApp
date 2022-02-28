@@ -8,11 +8,10 @@ import { GalleryComponent } from '../components/gallery/gallery.component';
 import { ModalFormComponent } from '../components/modal-form/modal-form.component';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NewMovieComponent } from './new-movie/new-movie.component';
 import { MoviesAppService} from '../services/movies-app.service';
 import { LoadingService } from '../shared/loading/loading.service';
 import { FormComponent } from './form/form.component';
-import { ModalComponent } from '../components/modal/modal.component';
+import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -22,23 +21,23 @@ import { ModalComponent } from '../components/modal/modal.component';
     MenuComponent,
     GalleryComponent,
     ModalFormComponent,
-    NewMovieComponent,
-    FormComponent,
-    ModalComponent
+    FormComponent
   ],
   imports: [
     PagesRoutingModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   exports: [
     HomeComponent,
     DetailComponent,
-    FormComponent
+    FormComponent,
   ],
   providers: [
     MoviesAppService,
-    LoadingService
+    LoadingService,
+    MatDialog
   ]
 })
 export class PagesModule { }

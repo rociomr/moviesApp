@@ -48,6 +48,9 @@ export class ModalFormComponent implements OnInit {
     this.getAllStudioNames();
   }
 
+  /**
+   * Método que inicializa el formulario cuando añadimos una película
+   */
   addMovieInfo(){
     this.titleAction = 'Nueva película';
     this.form = this.formBuilder.group({
@@ -62,6 +65,9 @@ export class ModalFormComponent implements OnInit {
     });
   }
 
+  /**
+   * Método que inicializa el formulario con los datos de la película seleccionada para editarla
+   */
   editMovieInfo(){
     this.titleAction = 'Editar película';
     this.selectedMovie = this.moviesService.getSelectedMovies();
@@ -91,6 +97,9 @@ export class ModalFormComponent implements OnInit {
     });
   }
 
+  /**
+   * Método que obtiene el listado de películas 
+   */
   getAllMovies(){
     this.moviesService.getMoviesList();
   }
@@ -106,7 +115,9 @@ export class ModalFormComponent implements OnInit {
     });
   }
  
-  
+  /**
+   * Método que compueba los datos del formulario y añade o edita película
+   */
   submit() {
     if (this.form.valid) {
       if(this.action == 'add'){
@@ -120,6 +131,9 @@ export class ModalFormComponent implements OnInit {
     }
   }
 
+  /**
+   * Método para añadir una nueva película
+   */
   addMovie(){
     let movie;
     movie = {
@@ -141,6 +155,9 @@ export class ModalFormComponent implements OnInit {
     })
   }
 
+  /**
+   * Método para editar los campos de la película seleccionada
+   */
   editMovie(){
     let movie;
     movie = {
@@ -163,12 +180,29 @@ export class ModalFormComponent implements OnInit {
     })
   }
 
+ /**
+  * Método que valida los campos del formulario
+  */
   validateInput(){
     if(this.form.value.year < 1900) {
       this.invalidYear = true;
     }
     if(this.form.punctuation < 1 || this.form.punctuation > 10){
       this.invalidPunctuation = true;
+    }
+  }
+
+  /**
+   * Método que al pinchar en la flecha del formulario vuelve a la pantalla anterior según la acción
+   * @param action 
+   */
+  goBack(action: string){
+    console.log("action", action)
+    if(action == 'Editar película'){
+      this.router.navigate(['/detail/'+this.movieId]);
+    }
+    if(action == 'Nueva película'){
+      this.router.navigate(['/home']);
     }
   }
 

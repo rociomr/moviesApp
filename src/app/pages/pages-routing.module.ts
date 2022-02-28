@@ -6,14 +6,10 @@ import { PagesComponent } from './pages.component';
 import { FormComponent } from './form/form.component';
 
 const routes: Routes = [
-    //{ path: '', component: PagesComponent, children: 
-    //    [
-            { path: '', redirectTo: 'home', pathMatch: 'full' },
-            { path: 'home', component: HomeComponent },
-            { path: 'form/:action', component: FormComponent },
-            { path: 'detail/:id', component: DetailComponent }
-    //    ]
-    //},
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
+  { path: 'form/:action/:id', component: FormComponent },
+  { path: 'detail/:id', component: DetailComponent }
 ];
 
 @NgModule({
