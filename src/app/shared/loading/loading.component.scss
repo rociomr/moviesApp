@@ -28,9 +28,7 @@
         background-color: rgba(0, 0, 0, 0.3);
     }
 
-    // :not(:required) hides these rules from IE9 and below
     &:not(:required) {
-        // hide "loading..." text 
         font: 0/0 a;
         color: transparent;
         text-shadow: none;
@@ -67,7 +65,6 @@
         background-position: 10px 10px;
         background-size: 23px 22px;
         background-repeat: no-repeat;
-       // background-image: url('../../../../../assets/img/logo-loader.svg');
         background-color: #d63384;
         z-index: 100;
     
