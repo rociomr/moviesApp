@@ -3,29 +3,29 @@
     <div *ngIf="selectedMovie" fxFlex="100%" class="detail-content">
         <div class="detail-content">
             <div class="img-content"> 
-                <p>{{selectedMovie.title}}</p>
+                <p  class="detail-title">{{selectedMovie.title}}</p>
                 <img class="img-poster" [src]="selectedMovie.poster!= null ? selectedMovie.poster : '../../assets/images/noPoster.png'">
             </div>   
             <div class="detail-input-content">
-                <mat-label>Puntuación</mat-label><br>
-                <div>
-                    <span>{{selectedMovie.imdbRating}}</span>
-                </div><br>
-                <mat-label>Duración</mat-label><br>
-                <div>
-                    <span>{{selectedMovie.duration}} min</span>
-                </div><br>
-                <mat-label>Estudios</mat-label><br>
-                <div>
-                    <span> {{selectedMovie.studio}} </span>
-                </div><br>
-                <mat-label>Año</mat-label><br>
-                <div>
-                    <span> {{selectedMovie.year}} </span>
-                </div><br>
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Puntuación</mat-label>
+                    <input matInput disabled [value]="selectedMovie.imdbRating" min="1" max="10" class="form-control" type="text"  name="punctuation">
+                </mat-form-field><br>
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Duración</mat-label>
+                    <input matInput disabled [value]="selectedMovie.duration+'(min)'"  class="form-control" type="text"  name="duration">
+                </mat-form-field><br>
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Estudios</mat-label>
+                    <input matInput disabled [value]="selectedMovie.studio"  class="form-control" type="text"  name="studio">
+                </mat-form-field><br>
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Año</mat-label>
+                    <input matInput disabled [value]="selectedMovie.year"  class="form-control" type="text"  name="year">
+                </mat-form-field><br>
                 <mat-label>Géneros</mat-label><br>
                 <div>
-                    <span *ngFor="let genreMovie of selectedMovie.genre" > #{{genreMovie}} </span>
+                    <span *ngFor="let genreMovie of selectedMovie.genre" > {{genreMovie}} </span>
                 </div><br>
                 <mat-label>Actores</mat-label><br>
                 <mat-chip-list #chipList aria-label="Añadir actores">
@@ -38,11 +38,13 @@
             </div>
         </div>
     </div>
-    <button mat-fab class="delete-button flotante" color="accent" routerLink="">
+    
+    <button mat-fab class="delete-button flotante" color="accent" (click)="openDialog()">
         <mat-icon class="material-icons-round">delete</mat-icon>
     </button>
     <button mat-fab class="edit-button flotante-edit" color="primary" [routerLink]="['/form/edit/', movieId]">
         <mat-icon class="material-icons-round">edit</mat-icon>
     </button>
 </div>
+
 <app-loading></app-loading>

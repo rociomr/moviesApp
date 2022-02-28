@@ -22,6 +22,8 @@
 
 .img-content {
     margin: 30px;
+    box-shadow: -1px 6px 17px -5px #00000082;
+    border-radius: 5px;
 }
 
 .flotante {
@@ -34,7 +36,14 @@
     justify-content: center;
     display: inline-flex;
     flex-wrap: wrap;
+    font-size: 16px;
 }
+
+.form-control:disabled, .form-control[readonly] {
+    background-color: white;
+    opacity: 1;
+}
+
 
 .detail-input-content {
    // width: 100;
@@ -43,6 +52,49 @@
 
 .img-poster {
     width: 300px;
+    margin-top: -12px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.detail-title {
+    font-size: 20px;
+    color: #3f51b5;
+    color: #3f51b5;
+    background-color: white;
+    padding: 16px 0 16px 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.dialog-title, .dialog-content, .dialog-button {
+    text-align: center;
+   
+}
+
+.dialog-title{
+    color: #3f51b5
+}
+
+.cancel-dialog-button {
+    background-color: white;
+    color: #3f51b5;
+    border: 0;
+}
+
+.remove-dialog-button {
+    background-color: #ff4081;
+    border: 0;
+    border-radius: 19px;
+    padding: 10px 26px;
+    color: white;
+}
+
+.mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
+    color: rgba(0, 0, 0, 1);
+}
+.mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-label {
+    color: rgba(0, 0, 0, 1.38);
 }
 
 @media (max-width: 500px) {

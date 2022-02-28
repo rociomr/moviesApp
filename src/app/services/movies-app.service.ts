@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, mergeMap, find, Observable, Subject } from 'rxjs';
-import { Movie } from '../shared/interfaces/data.interface';
-import { map } from 'rxjs';
-import { C } from '@angular/cdk/keycodes';
+import { Router } from '@angular/router';
 
 
 @Injectable()
@@ -17,7 +15,7 @@ export class MoviesAppService {
   private  $movieObserver = new BehaviorSubject<any>([]);
   //movies$ = this.moviesSubject.asObservable();
   
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.getMoviesList();
   }
 
@@ -32,6 +30,8 @@ export class MoviesAppService {
       });
       this.setNextID(nextID+1);
       this.setMovieObservable(data);
+    }, err => {
+      this.router.navigate(['/not-found']);
     })
   }
 
@@ -96,6 +96,18 @@ export class MoviesAppService {
   }
 
   /**
+   * Método que borra una película a la bbdd
+   * @param movie 
+   * @returns 
+   */
+   removeMovie(movieId:any): Observable<any> {
+    const headers = { 'content-type': 'application/json'};
+    const body = movieId;
+    console.log("movie remove ", movieId)
+    return this.http.delete(this.baseURL + 'movies/'+movieId, body)
+  }
+
+  /**
    * Método para obtener el nombre y número de los actores de la película seleccionada
    */
    getNamesActorsMovieSelected(actorList:[], selectedMovie:any){
@@ -109,16 +121,10 @@ export class MoviesAppService {
               let first_name = actorList.first_name;
               let last_name = actorList.last_name;
               dataActors.push(first_name +' '+ last_name, actorList.id);
-             // numActors.push(actorList.id)
             }
           }); 
         });
       }
-     /* let object = {
-        "name": nameActors,
-        "number": numActors
-      }*/
-      console.log("object", dataActors)
     return dataActors;
   }
 
@@ -141,12 +147,10 @@ export class MoviesAppService {
   }
 
   setSelectedMovie(selectedMovie:any){
-    console.warn('PASA SELECTED MOVIE');
     this.selectedMovie = selectedMovie;
   }
 
   getSelectedMovies(){
-    console.warn('PASA GET SELECTED MOVIE');
     return this.selectedMovie;
   }
 
@@ -207,21 +211,13 @@ export class MoviesAppService {
   getNumberActorsMovieSelected(actors:any){
     let dataActors: string[] = [];
     let names: any;
-    //this.actors = actors;
-    console.log("actors", actors)
-  
-  
       if(actors){
         actors.forEach((actorMovie:any) => {
           let names = actorMovie.split(' ');
-          console.log("names", names)
-         
-              dataActors.push(names);
-             // numActors.push(actorList.id)
+          dataActors.push(names);
         })
-      
       }
-      console.log("names", dataActors)
+      console.log("dataActors", dataActors)
     return dataActors;
   
   }
