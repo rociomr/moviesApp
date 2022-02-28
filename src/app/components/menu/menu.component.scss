@@ -1,10 +1,17 @@
 
-  .companyName{
-    font-size: 150%;
+.companyName{
+  font-size: 150%;
 }
 
 .mat-toolbar{
   height: 7vh;
+}
+
+.menu {
+  text-align: center;
+  font-size: 19px;
+  padding-top: 10px;
+  background-color: #3f51b5;
 }
 
 div {
@@ -20,71 +27,71 @@ div {
   /* overflow: hidden; */
 }
 
-a{
-    text-decoration: none;
-    font-size: 110%;
-    white-space: normal;
+a {
+  text-decoration: none;
+  font-size: 110%;
+  white-space: normal;
 }
 
 button{
-    font-size: 110%;
-    min-width: min-content;
+  font-size: 110%;
+  min-width: min-content;
 }
 
 .example-icon {
-    padding: 0 14px;
-  }
+  padding: 0 14px;
+}
   
-  .example-spacer {
-    flex: 1 1 auto;
-  }
+.example-spacer {
+  flex: 1 1 auto;
+}
 
-  .mat-sidenav-content{
-      font-size: 200%;
-      text-align: center;
-  }
-  .botonF1{
-    width:60px;
-    height:60px;
-    border-radius:100%;
-    background:#F44336;
-    right:0;
-    bottom:0;
-    position:absolute;
-    margin-right:16px;
-    margin-bottom:16px;
-    border:none;
-    outline:none;
-    color:#FFF;
-    font-size:36px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    transition:.3s;  
-  }
-  span{
-    transition:.5s;  
-  }
-  .botonF1:hover span{
-    transform:rotate(360deg);
-  }
-  .botonF1:active{
-    transform:scale(1.1);
-  }
-  .btn{
-    width:40px;
-    height:40px;
-    border-radius:100%;
-    border:none;
-    color:#FFF;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    font-size:28px;
-    outline:none;
-    position:absolute;
-    right:0;
-    bottom:0;
-    margin-right:26px;
-    transform:scale(0);
-  }
-  .mat-drawer-container .mat-sidenav-container .example-container .mat-drawer-transition .mat-drawer-container-has-open{
-    min-width: 12%;
-    width: 13%;
-  }
+.mat-sidenav-content{
+    font-size: 200%;
+    text-align: center;
+}
+.botonF1{
+  width:60px;
+  height:60px;
+  border-radius:100%;
+  background:#F44336;
+  right:0;
+  bottom:0;
+  position:absolute;
+  margin-right:16px;
+  margin-bottom:16px;
+  border:none;
+  outline:none;
+  color:#FFF;
+  font-size:36px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  transition:.3s;  
+}
+span{
+  transition:.5s;  
+}
+.botonF1:hover span{
+  transform:rotate(360deg);
+}
+.botonF1:active{
+  transform:scale(1.1);
+}
+.btn{
+  width:40px;
+  height:40px;
+  border-radius:100%;
+  border:none;
+  color:#FFF;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  font-size:28px;
+  outline:none;
+  position:absolute;
+  right:0;
+  bottom:0;
+  margin-right:26px;
+  transform:scale(0);
+}
+.mat-drawer-container .mat-sidenav-container .example-container .mat-drawer-transition .mat-drawer-container-has-open{
+  min-width: 12%;
+  width: 13%;
+}

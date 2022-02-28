@@ -1,6 +1,7 @@
 import { Component} from '@angular/core';
 import { Router } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-menu',
@@ -13,8 +14,8 @@ export class MenuComponent  {
   showSubSubMenu: boolean = false;
   isExpanded = true;
   title: string;
-  constructor(private router: Router) {
-    this.title = this.router.url.replace('/', '');
+  constructor(private router: Router, private translate: TranslateService) {
+    this.title = "Movie App";
   }
 
   

@@ -1,0 +1,8 @@
+<h1 mat-dialog-title class="dialog-title">Borrar película</h1>
+<div mat-dialog-content class="dialog-content">
+ <p>¿Quieres borrar la película {{data.selectedMovie.title}}?</p>
+</div>
+<div class="dialog-button" mat-dialog-actions>
+  <button mat-button class="cancel-dialog-button" (click)="onNoClick()">Cancel</button>
+  <button mat-button class="remove-dialog-button" (click)="removeMovie(data.selectedMovie.id)">Borrar</button>
+</div>

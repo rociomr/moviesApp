@@ -5,9 +5,10 @@ import { MoviesAppService} from '../../services/movies-app.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { Movie } from 'src/app/shared/interfaces/data.interface';
+import { LoadingService } from 'src/app/shared/loading/loading.service';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
+//  encapsulation: ViewEncapsulation.None,
   selector: 'app-modal-form',
   templateUrl: './modal-form.component.html',
   styleUrls: ['./modal-form.component.scss']
@@ -16,7 +17,8 @@ export class ModalFormComponent implements OnInit {
  
   action: string;
   titleAction: string;
-  punctuation = 3;
+  invalidYear = false;
+  invalidPunctuation: boolean;
   form: any;
   movieId:number;
   selectedMovie: any;
@@ -27,9 +29,10 @@ export class ModalFormComponent implements OnInit {
   studio: string[];
   allStudios: string[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, private formBuilder: FormBuilder, private element: ElementRef, private moviesService: MoviesAppService){}
+  constructor(private loadingService: LoadingService, private route: ActivatedRoute, private router: Router, private formBuilder: FormBuilder, private element: ElementRef, private moviesService: MoviesAppService){}
 
   ngOnInit() {
+    this.loadingService.showLoader();
     this.route.params.pipe(
       take(1),
       tap(({action, id})  => {
@@ -62,7 +65,6 @@ export class ModalFormComponent implements OnInit {
   editMovieInfo(){
     this.titleAction = 'Editar película';
     this.selectedMovie = this.moviesService.getSelectedMovies();
-    console.warn("this.selectedMovie.studio", this.selectedMovie.studio)
     this.form = this.formBuilder.group({
       title: [this.selectedMovie.title, Validators.required],
       poster: [this.selectedMovie.poster],
@@ -73,6 +75,7 @@ export class ModalFormComponent implements OnInit {
       punctuation: [this.selectedMovie.imdbRating, Validators.required],
       actors:[this.selectedMovie.actors,Validators.required]
     });
+    console.warn("this.selectedMovie.studio", this.selectedMovie.studio)
   }
 
   
@@ -82,6 +85,9 @@ export class ModalFormComponent implements OnInit {
   getAllActors(){
     this.moviesService.getActorsList().then( data => {
       this.actorsList = data;
+      this.loadingService.hideLoader();
+    }, err => {
+      this.router.navigate(['/not-found']);
     });
   }
 
@@ -89,14 +95,14 @@ export class ModalFormComponent implements OnInit {
     this.moviesService.getMoviesList();
   }
 
-
   /**
    * Método que obtiene el listado de estudios 
    */
   getAllStudioNames(){
     this.moviesService.getStudiosList().then( data => {
       this.studiosList = data;
-      
+    }, err => {
+      this.router.navigate(['/not-found']);
     });
   }
  
@@ -131,7 +137,7 @@ export class ModalFormComponent implements OnInit {
       this.getAllMovies();
       this.router.navigate(['/home']);
     },error =>{
-
+      this.router.navigate(['/not-found']);
     })
   }
 
@@ -153,8 +159,17 @@ export class ModalFormComponent implements OnInit {
       this.getAllMovies();
       this.router.navigate(['/home']);
     },error =>{
-
+      this.router.navigate(['/not-found']);
     })
+  }
+
+  validateInput(){
+    if(this.form.value.year < 1900) {
+      this.invalidYear = true;
+    }
+    if(this.form.punctuation < 1 || this.form.punctuation > 10){
+      this.invalidPunctuation = true;
+    }
   }
 
 }

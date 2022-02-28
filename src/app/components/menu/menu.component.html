@@ -5,27 +5,24 @@
 			<mat-icon>menu</mat-icon>
 			</button>
 		</div>
-	
 		<a mat-button class="companyName" routerLink="/">
 			<span>{{title}}</span>
 		</a>
 		<span class="example-spacer"></span>
 		<div fxShow="true" fxHide.lt-md="true">
-			<a mat-button routerLink="/home">Películas</a>
-			<a mat-button routerLink="/actores">Actores</a>
-			<a mat-button routerLink="/estudios">Estudios</a>
+			<a mat-button routerLink="/home">{{'COMMON.MOVIES' | translate}}</a>
+			<a mat-button routerLink="/actores">{{'COMMON.ACTORS' | translate}}</a>
+			<a mat-button routerLink="/estudios">{{'COMMON.COMPANIES' | translate}}</a>
 		</div>
-	
 	</mat-toolbar>
 	<mat-sidenav-container fxFlexFill class="example-container">
 		<mat-sidenav color="primary" #sidenav fxLayout="column" mode="over"  opened="false" fxShow.gt-sm="true">
 			<div fxLayout="column">
-				<a mat-button routerLink="/home">Películas</a>
-				<a mat-button routerLink="/actores">Actores</a>
-				<a mat-button routerLink="/estudios">Estudios</a>
+				<div class="menu"><p>Menú</p></div>
+				<a mat-button routerLink="/home">{{'COMMON.MOVIES' | translate}}</a>
+				<a mat-button routerLink="/actores">{{'COMMON.ACTORS' | translate}}</a>
+				<a mat-button routerLink="/estudios">{{'COMMON.COMPANIES' | translate}}</a>
 			</div>
 		</mat-sidenav>
-		
     </mat-sidenav-container>
-
-  </div>
+</div>

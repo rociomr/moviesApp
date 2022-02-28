@@ -2,21 +2,25 @@
     justify-content: center;
     display: inline-flex;
     flex-wrap: wrap;
-
-        font-size: 16px;
-    
+    font-size: 16px;
 }
 
 .form-control:focus {
     border-color: transparent;
     box-shadow: 0 0 0 0 transparent;
+    background-color: transparent;
 }
 
-.mat-card-header {
-    /* display: flex; */
-    flex-direction: row;
-    text-align: center;
-    //background-color: #ff4081;
+.header-action {
+    margin-bottom: 10px;
+    color: #3f51b5;
+    font-size: 24px;
+    font-weight: 600;
+    font-family: monospace;
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 5px;
+    height: 35px;
 }
 
 .example-form {
@@ -28,6 +32,11 @@
   
 .example-full-width {
     width: 100%;
+}
+
+.arrow {
+    margin: 0 20px;
+    cursor: pointer;
 }
 
 .mat-card {
@@ -45,4 +54,12 @@
 
 .mat-card-header .mat-card-title {
     margin: 12px;
+}
+
+.button-form {
+    text-align: center;
+}
+
+.button-cancel {
+    margin-right: 20px;
 }
