@@ -1,6 +1,6 @@
-import { Component, OnInit,  ElementRef, ViewEncapsulation } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Observable, take, tap } from 'rxjs';
+import { Component, OnInit,  ElementRef } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { take, tap } from 'rxjs';
 import { MoviesAppService} from '../../services/movies-app.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
@@ -8,7 +8,6 @@ import { Movie } from 'src/app/shared/interfaces/data.interface';
 import { LoadingService } from 'src/app/shared/loading/loading.service';
 
 @Component({
-//  encapsulation: ViewEncapsulation.None,
   selector: 'app-modal-form',
   templateUrl: './modal-form.component.html',
   styleUrls: ['./modal-form.component.scss']
