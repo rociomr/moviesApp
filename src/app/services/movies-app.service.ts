@@ -13,11 +13,8 @@ export class MoviesAppService {
   nextID: number;
   baseURL: string = "http://localhost:3000/";
   private  $movieObserver = new BehaviorSubject<any>([]);
-  //movies$ = this.moviesSubject.asObservable();
   
-  constructor(private http: HttpClient, private router: Router) {
-    this.getMoviesList();
-  }
+  constructor(private http: HttpClient, private router: Router) {}
 
   /**
    * Método que devuelve el listado de películas y guarda último id
@@ -40,20 +37,6 @@ export class MoviesAppService {
    */
   getActorsList(){
     return this.http.get(this.baseURL+'actors').toPromise();
-  }
-
-  /**
-   * Método que devuelve el nombre del listado de actores
-   */
-   getNamesActor(fname:string, lname:string){
-    return this.http.get(this.baseURL+'actors?first_name='+fname+'&lastname='+lname).toPromise();
-  }
-
-  /**
-   * Método que devuelve el nombre del listado de actores
-   */
-   getNumberActor(fname:string, lname:string){
-    return this.http.get(this.baseURL+'actors?first_name'+fname+'&lastname'+lname).toPromise();
   }
 
   /**
@@ -91,7 +74,6 @@ export class MoviesAppService {
    editMovie(movie:any): Observable<any> {
     const headers = { 'content-type': 'application/json'};
     const body = movie;
-    console.log("movie edit ", movie)
     return this.http.put(this.baseURL + 'movies/'+movie.id, body, {'headers':headers})
   }
 
@@ -103,28 +85,26 @@ export class MoviesAppService {
    removeMovie(movieId:any): Observable<any> {
     const headers = { 'content-type': 'application/json'};
     const body = movieId;
-    console.log("movie remove ", movieId)
     return this.http.delete(this.baseURL + 'movies/'+movieId, body)
   }
 
   /**
    * Método para obtener el nombre y número de los actores de la película seleccionada
    */
-   getNamesActorsMovieSelected(actorList:[], selectedMovie:any){
+   getNamesActorsMovieSelected(actorsList:any, selectedMovie:any){
     let dataActors: string[] = [];
-    let numActors: any;
     this.selectedMovie = selectedMovie;
-      if(selectedMovie){
-        selectedMovie.actors.forEach((actorMovie:any) => {
-          actorList.forEach((actorList:any) => {
-            if(actorList.id === actorMovie){
-              let first_name = actorList.first_name;
-              let last_name = actorList.last_name;
-              dataActors.push(first_name +' '+ last_name, actorList.id);
-            }
-          }); 
-        });
-      }
+    if(selectedMovie){
+      selectedMovie.actors.forEach((actorMovie:any) => {
+        actorsList.forEach((actorList:any) => {
+          if(actorList.id === actorMovie){
+            let first_name = actorList.first_name;
+            let last_name = actorList.last_name;
+            dataActors.push(first_name +' '+ last_name, actorList.id);
+          }
+        }); 
+      });
+    }
     return dataActors;
   }
 
@@ -132,8 +112,10 @@ export class MoviesAppService {
    * Método para obtener el estudio de la película seleccionada
    */
   getStudioMovieSelected(selectedMovie: any){
+  
     this.getStudiosList().then( data => {
       this.studiosList = data;
+      console.log("estudios list", data)
       this.studiosList.forEach((studio:any) => {
         studio.movies.forEach((movieStudio:any) => {
           if(movieStudio == selectedMovie.id){
@@ -146,48 +128,26 @@ export class MoviesAppService {
     this.setSelectedMovie(this.selectedMovie)
   }
 
+  /**
+   * Método que setea la película seleccionada
+   * @param selectedMovie 
+   */
   setSelectedMovie(selectedMovie:any){
     this.selectedMovie = selectedMovie;
   }
 
+  /**
+   * Método que obtiene la película seleccionada
+   * @returns 
+   */
   getSelectedMovies(){
     return this.selectedMovie;
   }
 
   /**
-   * Método obtiene el listado de nombre de los actores
-   * @param actorsList 
+   * Devuelve el observable de los datos de peliculas
    * @returns 
    */
-   getNamesActors(actorsList: []) {
-    let name, firstname, lastname;
-    let allActors: any = [];
-    actorsList.forEach((actor: any) => {
-      firstname = actor.first_name;
-      lastname = actor.last_name;
-      name = firstname.concat(' ', lastname);
-      allActors.push(name)
-    });
-    return allActors;
-  }
-
-  /**
-   * Método obtiene el listado de nombres de los estudios
-   * @param studiosList 
-   * @returns 
-   */
-    getNameStudiosList(studiosList: []) {
-      let allStudios: any = [];
-      studiosList.forEach((studio: any) => {
-        allStudios.push(studio.name);      
-      });
-      return allStudios;
-    }
-
-    /**
-     * Devuelve el observable de los datos de peliculas
-     * @returns 
-     */
   getMovieObservable(): Observable<Object> {
     return this.$movieObserver.asObservable();
   }
@@ -200,32 +160,18 @@ export class MoviesAppService {
     this.$movieObserver.next(movieData);
   }  
 
-  show() {
-    this.isLoading$.next(true);
-  }
-
-  hide() {
-    this.isLoading$.next(false);
-  }
-
-  getNumberActorsMovieSelected(actors:any){
-    let dataActors: string[] = [];
-    let names: any;
-      if(actors){
-        actors.forEach((actorMovie:any) => {
-          let names = actorMovie.split(' ');
-          dataActors.push(names);
-        })
-      }
-      console.log("dataActors", dataActors)
-    return dataActors;
-  
-  }
-
+  /**
+   * Método que setea el id de la pélicula que se añade
+   * @param nextID 
+   */
   setNextID(nextID: number){
     this.nextID = nextID;
   }
 
+  /**
+   * Método para obtener el id 
+   * @returns 
+   */
   getNextID(){
    return  this.nextID;
   }
