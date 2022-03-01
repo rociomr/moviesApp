@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-//import { MaterialModule } from "./amaterial.module";
+import { MaterialModule } from "./modules/amaterial.module";
 import { PagesModule } from './pages/pages.module';
 import { HttpClient, HttpClientModule} from '@angular/common/http';
 import { TranslateModule, TranslateLoader} from '@ngx-translate/core';
@@ -23,6 +23,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppRoutingModule,
     BrowserAnimationsModule,
     PagesModule,
+    MaterialModule,
     HttpClientModule,
     TranslateModule.forRoot(  {
       loader: { 
