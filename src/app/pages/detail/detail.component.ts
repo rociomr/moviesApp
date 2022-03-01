@@ -65,6 +65,10 @@ console.log("this.sesfsdfsdf", data)
       console.log('The dialog was closed');
     });
   }
+
+  goBack() {
+    this.router.navigate(['/home']);
+  }
 }
 
 @Component({

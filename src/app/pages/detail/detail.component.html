@@ -3,6 +3,7 @@
     <div *ngIf="selectedMovie" fxFlex="100%" class="detail-content">
         <div class="detail-content">
             <div class="img-content"> 
+                <mat-icon class="arrow-detail" (click)="goBack()" alt="go back" aria-hidden="false" aria-label="go back">arrow_back</mat-icon>
                 <p  class="detail-title">{{selectedMovie.title}}</p>
                 <img class="img-poster" [src]="selectedMovie.poster!= null ? selectedMovie.poster : '../../assets/images/noPoster.png'">
             </div>   

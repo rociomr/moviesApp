@@ -16,7 +16,9 @@ export class GalleryComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadingService.showLoader();
+    this.moviesService.getMoviesList();
     this.moviesService.getMovieObservable().subscribe(data => {
+      //para ver loading
       setTimeout(() => {
         this.moviesList = data;
         this.loadingService.hideLoader();
