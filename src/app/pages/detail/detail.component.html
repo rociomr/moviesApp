@@ -9,22 +9,22 @@
             </div>   
             <div class="detail-input-content">
                 <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Puntuación</mat-label>
+                    <mat-label>{{'FORM.PUNCTUATION' | translate}}</mat-label>
                     <input matInput disabled [value]="selectedMovie.imdbRating" min="1" max="10" class="form-control" type="text"  name="punctuation">
                 </mat-form-field><br>
                 <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Duración</mat-label>
+                    <mat-label>{{'FORM.DURATION' | translate}}</mat-label>
                     <input matInput disabled [value]="selectedMovie.duration+'(min)'"  class="form-control" type="text"  name="duration">
                 </mat-form-field><br>
                 <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Estudios</mat-label>
+                    <mat-label>{{'COMMON.COMPANIES' | translate}}</mat-label>
                     <input matInput disabled [value]="selectedMovie.studio"  class="form-control" type="text"  name="studio">
                 </mat-form-field><br>
                 <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Año</mat-label>
+                    <mat-label>{{'FORM.YEAR' | translate}}</mat-label>
                     <input matInput disabled [value]="selectedMovie.year"  class="form-control" type="text"  name="year">
                 </mat-form-field><br>
-                <mat-label>Géneros</mat-label><br>
+                <mat-label>{{'FORM.GENRE' | translate}}</mat-label><br>
                 <div>
                     <span *ngFor="let genreMovie of selectedMovie.genre" > {{genreMovie}} </span>
                 </div><br>

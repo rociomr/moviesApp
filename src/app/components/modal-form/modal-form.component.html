@@ -10,38 +10,38 @@
          
         <form class="form-content example-form" id="contactForm" *ngIf="selectedMovie  || this.titleAction === 'Nueva película'" [formGroup]="form" (ngSubmit)="submit()">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Título</mat-label>
+            <mat-label>{{'COMMON.TITLE' | translate}}</mat-label>
             <input matInput formControlName="title" class="form-control"  name="title">
             
           </mat-form-field>
         
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Póster (url)</mat-label>
+            <mat-label>{{'FORM.POSTER' | translate}}</mat-label>
             <input matInput formControlName="poster" class="form-control"  name="poster">
           </mat-form-field>
         
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Géneros</mat-label>
+            <mat-label>{{'FORM.GENRE' | translate}}</mat-label>
             <input matInput formControlName="genres" class="form-control"  name="genres">
           </mat-form-field><br>
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Año</mat-label>
+            <mat-label>{{'FORM.YEAR' | translate}}</mat-label>
             <input matInput formControlName="year" min="1900" class="form-control" type="number" name="year">
           </mat-form-field>
       
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Duración (min)</mat-label>
+            <mat-label>{{'FORM.DURATION' | translate}}</mat-label>
             <input matInput formControlName="duration" min="30" max="300" class="form-control" type="number"  name="duration">
           </mat-form-field>
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Puntuación</mat-label>
+            <mat-label>{{'FORM.PUNCTUATION' | translate}}</mat-label>
             <input matInput  formControlName="punctuation" min="1" max="10" class="form-control" type="number"  name="punctuation">
             <mat-error *ngIf="invalidPunctuation">
-              La puntuacion debe ser entre 1 y 10
+              {{'FORM.ERROR_PUNCTUATION' | translate}}
             </mat-error>
           </mat-form-field>
           <mat-form-field appearance="outline">
-            <mat-label>Estudio</mat-label>
+            <mat-label>{{'FORM.COMPANY' | translate}}</mat-label>
             <mat-select name="studio" formControlName="studio">
               <mat-option *ngFor="let studio of studiosList"  [value]="studio.name">
                 {{studio.name}}
@@ -49,7 +49,7 @@
             </mat-select>
           </mat-form-field>
           <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>Actores</mat-label>
+            <mat-label>{{'FORM.ACTORS' | translate}}</mat-label>
             <mat-select formControlName="actors" multiple >
               <mat-option *ngFor="let actor of actorsList" [value]="actor.id" >{{actor.first_name}} {{actor.last_name}}</mat-option>
             </mat-select>

@@ -4,6 +4,18 @@
         "ACTORS": "Actores",
         "COMPANIES": "Estudios",
         "CANCEL": "Cancelar",
-        "GUARDAR": "Guardar"
+        "GUARDAR": "Guardar",
+        "TITLE": "Título"
+    },
+
+    "FORM": {
+        "POSTER": "Póster (url)",
+        "GENRE": "Géneros",
+        "YEAR": "Año",
+        "DURATION": "Duración (min)",
+        "PUNCTUATION": "Puntuación",
+        "COMPANY": "Estudio",
+        "ACTORS": "Actores",
+        "ERROR_PUNCTUATION": "La puntuacion debe ser entre 1 y 10"
     }
 }
